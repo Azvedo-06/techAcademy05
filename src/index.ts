@@ -1,6 +1,6 @@
 import sequelize from "../src/config/database";
 import express from "express";
-import UserModel from "../src/models/UserModel"
+import userRoutes from "./routes/userRoutes";
 
 const app = express();
 const PORT = 3000;
@@ -9,11 +9,8 @@ app.get('/', (req, res) => {
     res.send("Tech Academy 05");
 })
 
-// async = valor de retorno é uma promise
-app.get("/users", async (req, res) => {
-    const usersFindAll = await UserModel.findAll();
-    res.send(usersFindAll);
-});
+app.use(express.json());
+app.use(userRoutes);
 
 // sync database
 sequelize

@@ -1,7 +1,13 @@
 import { Model, DataType, DataTypes } from "sequelize";
 import sequelize from "../config/database";
 
-class UserModel extends Model {};
+class UserModel extends Model {
+    id: number | undefined;
+    name: string | undefined;
+    email: string | undefined;
+    password: string | undefined
+    cpf: string | undefined;
+};
 
 UserModel.init(
     {
@@ -29,8 +35,8 @@ UserModel.init(
     },
     {
         sequelize,
-        modelName: "UserModel",
-        tableName: "users",
+        modelName: 'UserModel',
+        tableName: 'users',
     }
 );
 
