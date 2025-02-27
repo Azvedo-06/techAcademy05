@@ -1,6 +1,6 @@
 import { Request, Response} from "express";
 import UserModel from "../models/UserModel";
-import { createUser } from "../servers/userServer";
+import { createUser } from "../services/userServices";
 
 export const getAllUser = async (req:Request, res:Response) => {
     const usersFindAll = await UserModel.findAll();
