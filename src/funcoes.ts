@@ -1,4 +1,4 @@
-import { json } from "sequelize"
+import  { json }  from "sequelize"
 
 export async function mountPagenation(filtes:any) {
     filtes.sortBy  = filtes.sortBy ? filtes.sortBy : "id"

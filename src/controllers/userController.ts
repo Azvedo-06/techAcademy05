@@ -1,11 +1,9 @@
 import { Request, Response} from "express";
 import UserModel from "../models/UserModel";
-import { error } from "console";
-
 
 export const getAllUser = async (req:Request, res:Response) => {
     const usersFindAll = await UserModel.findAll();
-    res.send(usersFindAll);
+    res.json(usersFindAll);
 }
 
 export const getUserById = async (req:Request<{id: number}>, res:Response) => {
