@@ -1,11 +1,6 @@
 import { Request, Response} from "express";
 import UserModel from "../models/UserModel";
-import { createUser, deleteUser } from "../services/userServices";
-
-export const getAllUser = async (req:Request, res:Response) => {
-    const usersFindAll = await UserModel.findAll();
-    res.json(usersFindAll);
-}
+import { createUser, deleteUser, getAllUser } from "../services/userServices";
 
 export const getUserById = async (req:Request<{id: number}>, res:Response) => {
     const user = await UserModel.findByPk(req.params.id);
@@ -62,7 +57,16 @@ export const deleteUserController = async (req:Request<{id:number}>, res: Respon
     } catch (error) {
         return res.status(400).json(''+error);
     }
-}
+};
+
+export const getAllUserController = async (req:Request, res:Response) => {
+    try {
+        const users = await getAllUser();
+        return res.status(200).json(users);
+    } catch (error) {
+        return res.status(400).json({ error: "Erro ao buscar usuários. Tente novamente." });
+    }
+};
 
 /* create passdo direto no controller
 export const createUser = async (req:Request, res:Response) => {
@@ -95,6 +99,11 @@ export const deleteUser = async (req:Request<{id: number}>, res:Response) => {
     } catch (error) {
         res.status(500).json('erro interno no servidor:'+ error);
     }
+}
+
+export const getAllUser = async (req:Request, res:Response) => {
+    const usersFindAll = await UserModel.findAll();
+    res.json(usersFindAll);
 }
 */
 

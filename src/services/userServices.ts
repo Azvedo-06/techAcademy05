@@ -43,3 +43,12 @@ export const deleteUser = async (id:number) => {
         throw new Error(`Erro ao tentar deletar usuário: ${error}`);
     }
 };
+
+export const getAllUser = async() => {
+    try {
+        const users = await UserModel.findAll();
+        return users;
+    } catch (error) {
+        throw new Error("Erro ao buscar usuários. Tente novamente.");
+    }
+}

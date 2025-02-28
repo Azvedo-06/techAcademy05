@@ -1,14 +1,22 @@
 import express from "express";
-import { getAllUser, getUserById, /*createUser,*/ updateUser, /*deleteUser*/ deleteUserController, createUserController } from "../controllers/userController"
+import { 
+    /*getAllUser*/
+    /*createUser,*/
+    /*deleteUser*/
+    getUserById, 
+    updateUser,
+    getAllUserController,
+    deleteUserController,
+    createUserController
+} from "../controllers/userController"
 
 const router = express.Router();
 
-router.get('/users', getAllUser);
-router.get('/users/:id', getUserById);
-//router.post('/users', createUser); // rota direta do controller
-router.post('/users', createUserController); // rota passando pelo serve e depois controller
-router.patch('/users/:id', updateUser);
+router.post('/users', createUserController); 
+router.get('/users', getAllUserController)
 router.delete('/users/:id', deleteUserController);
-//router.delete('/users/:id', deleteUser);
+router.patch('/users/:id', updateUser);
+router.get('/users/:id', getUserById);
+
 
 export default router;
