@@ -8,6 +8,7 @@ export const createUser = async (name: string, email: string, password: string, 
 
     if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
         throw new Error("Invalid email");
+        
     }
 
     if (!password || password.length < 6) {
@@ -26,4 +27,19 @@ export const createUser = async (name: string, email: string, password: string, 
     });
 
     return user;
+};
+
+export const deleteUser = async (id:number) => {
+    try {
+        const userDelete = await UserModel.findByPk(id);
+
+        if (!userDelete) {
+            throw new Error("User not found");
+        }
+
+        await userDelete.destroy();
+        return "Usuário deletado";
+    } catch (error) {
+        throw new Error(`Erro ao tentar deletar usuário: ${error}`);
+    }
 };

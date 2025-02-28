@@ -1,6 +1,6 @@
 import { Request, Response} from "express";
 import UserModel from "../models/UserModel";
-import { createUser } from "../services/userServices";
+import { createUser, deleteUser } from "../services/userServices";
 
 export const getAllUser = async (req:Request, res:Response) => {
     const usersFindAll = await UserModel.findAll();
@@ -17,16 +17,52 @@ export const getUserById = async (req:Request<{id: number}>, res:Response) => {
     return res.json(user);
 }
 
+export const updateUser = async (req:Request<{id:string}>, res:Response) => {
+    try {
+        //destructing object
+        const { name, email, password, cpf } = req.body;
+        
+        if (!name || name === "") {
+            return res.status(400).json({error: "Name is required"});
+        }
+
+        const user = await UserModel.findByPk(req.params.id);
+
+        if (!user) {
+            return res.status(404).json({error: "User not found"});
+        }
+
+        user.name = name
+        user.email = email
+        user.password = password
+        user.cpf = cpf
+
+        await user.save()
+        res.status(201).json(user);
+    } catch (error) {
+        res.status(500).json('erro interno no servidor:'+ error);
+    }
+};
+
 // create passado no serverUser com validações feitas lá
 export const createUserController = async (req: Request, res: Response) => {
     try {
         const { name, email, password, cpf } = req.body;
         const user = await createUser(name, email, password, cpf);
         return res.status(201).json({ message: "User created successfully", user });
-    } catch (error: any) {
-        return res.status(500).json({ error: error.message });
+    } catch (error) {
+        return res.status(400).json(''+error);
     }
 };
+
+export const deleteUserController = async (req:Request<{id:number}>, res: Response) => {
+    try {
+        const message = await deleteUser(Number(req.params.id)); 
+        return res.status(200).json({message});
+    } catch (error) {
+        return res.status(400).json(''+error);
+    }
+}
 
 /* create passdo direto no controller
 export const createUser = async (req:Request, res:Response) => {
@@ -44,7 +80,7 @@ export const createUser = async (req:Request, res:Response) => {
         res.status(500).json('erro interno no servidor:'+ error);
     }
 }
-*/
+
 export const deleteUser = async (req:Request<{id: number}>, res:Response) => {
     try {
         const userDelete = await UserModel.findByPk(req.params.id);
@@ -60,31 +96,5 @@ export const deleteUser = async (req:Request<{id: number}>, res:Response) => {
         res.status(500).json('erro interno no servidor:'+ error);
     }
 }
-
-export const updateUser = async (req:Request<{id:string}>, res:Response) => {
-    try {
-        //destructing object
-        const { name, email, password, cpf } = req.body;
-        
-        if (!name || name === "") {
-            return res.status(400).json({error: "Name is required"});
-        }
-
-        const user = await UserModel.findByPk(req.params.id);
-
-        if (!user) {
-            return res.status(400).json({error: "User not found"});
-        }
-
-        user.name = name
-        user.email = email
-        user.password = password
-        user.cpf = cpf
-
-        await user.save()
-        res.status(201).json(user);
-    } catch (error) {
-        res.status(500).json('erro interno no servidor:'+ error);
-    }
-}
+*/
 
