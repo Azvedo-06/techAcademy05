@@ -1,36 +1,8 @@
 import { Request, Response} from "express";
-import UserModel from "../models/UserModel";
-import { createUser, deleteUser, getAllUser, getUserById } from "../services/userServices";
+//import UserModel from "../models/UserModel";
+import { createUser, deleteUser, getAllUser, getUserById, updateUser } from "../services/userServices";
 
-
-export const updateUser = async (req:Request<{id:string}>, res:Response) => {
-    try {
-        //destructing object
-        const { name, email, password, cpf } = req.body;
-        
-        if (!name || name === "") {
-            return res.status(400).json({error: "Name is required"});
-        }
-
-        const user = await UserModel.findByPk(req.params.id);
-
-        if (!user) {
-            return res.status(404).json({error: "User not found"});
-        }
-
-        user.name = name
-        user.email = email
-        user.password = password
-        user.cpf = cpf
-
-        await user.save()
-        res.status(201).json(user);
-    } catch (error) {
-        res.status(500).json('erro interno no servidor:'+ error);
-    }
-};
-
-// create passado no serverUser com validações feitas lá
+// passado no serverUser com validações feitas lá
 export const createUserController = async (req: Request, res: Response) => {
     try {
         const { name, email, password, cpf } = req.body;
@@ -65,6 +37,26 @@ export const getUserByIdController = async (req:Request<{id:number}>, res:Respon
         return res.status(200).json(user);
     } catch (error) {
         return res.status(400).json({ error: "Erro ao tentar encontrar usuário."});
+    }
+}
+
+export const updateUserController = async (req:Request, res:Response) => {
+    try {
+        const {id} = req.params;
+        const {name, email,password, cpf} = req.body;
+        
+        const update = await updateUser(
+            parseInt(id, 10),
+            name,
+            email,
+            password,
+            cpf
+
+        );
+
+        return res.status(201).json(update);
+    } catch (error) {
+        return res.status(400).json(''+error);
     }
 }
 
@@ -117,4 +109,33 @@ export const getUserById = async (req:Request<{id: number}>, res:Response) => {
 
     return res.json(user);
 }
+*/
+
+/*
+export const updateUser = async (req:Request<{id:string}>, res:Response) => {
+    try {
+        //destructing object
+        const { name, email, password, cpf } = req.body;
+        
+        if (!name || name === "") {
+            return res.status(400).json({error: "Name is required"});
+        }
+
+        const user = await UserModel.findByPk(req.params.id);
+
+        if (!user) {
+            return res.status(404).json({error: "User not found"});
+        }
+
+        user.name = name
+        user.email = email
+        user.password = password
+        user.cpf = cpf
+
+        await user.save()
+        res.status(201).json(user);
+    } catch (error) {
+        res.status(500).json('erro interno no servidor:'+ error);
+    }
+};
 */

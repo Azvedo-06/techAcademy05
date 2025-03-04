@@ -4,7 +4,8 @@ import {
     /*createUser,*/
     /*deleteUser*/
     /*getUserById*/ 
-    updateUser,
+    /*updateUser*/
+    updateUserController,
     getUserByIdController,
     getAllUserController,
     deleteUserController,
@@ -16,7 +17,7 @@ const router = express.Router();
 router.post('/users', createUserController); 
 router.get('/users', getAllUserController)
 router.delete('/users/:id', deleteUserController);
-router.patch('/users/:id', updateUser);
+router.patch('/users/:id', updateUserController);
 router.get('/users/:id', getUserByIdController);
 
 
