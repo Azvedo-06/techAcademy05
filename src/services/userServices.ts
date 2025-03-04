@@ -1,3 +1,4 @@
+import { error } from "console";
 import UserModel from "../models/UserModel";
 import bcrypt from "bcrypt";
 
@@ -50,5 +51,19 @@ export const getAllUser = async() => {
         return users;
     } catch (error) {
         throw new Error("Erro ao buscar usuários. Tente novamente.");
+    }
+}
+
+export const getUserById = async (id:number) => {
+    try {
+        const userId = await UserModel.findByPk(id);
+        
+        if (!userId) {
+            throw new Error("User not found");
+        }
+
+        return userId;
+    } catch (error) {
+        throw new Error(`Erro ao tentar encontrar usuário: ${error}`);
     }
 }

@@ -3,8 +3,9 @@ import {
     /*getAllUser*/
     /*createUser,*/
     /*deleteUser*/
-    getUserById, 
+    /*getUserById*/ 
     updateUser,
+    getUserByIdController,
     getAllUserController,
     deleteUserController,
     createUserController
@@ -16,7 +17,7 @@ router.post('/users', createUserController);
 router.get('/users', getAllUserController)
 router.delete('/users/:id', deleteUserController);
 router.patch('/users/:id', updateUser);
-router.get('/users/:id', getUserById);
+router.get('/users/:id', getUserByIdController);
 
 
 export default router;
