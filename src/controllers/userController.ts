@@ -1,4 +1,4 @@
-import { Request, Response} from "express";
+import e, { Request, Response} from "express";
 //import UserModel from "../models/UserModel";
 import { createUser, deleteUser, getAllUser, getUserById, updateUser } from "../services/userServices";
 
@@ -9,7 +9,7 @@ export const createUserController = async (req: Request, res: Response) => {
         const user = await createUser(name, email, password, cpf);
         return res.status(201).json({ message: "User created successfully", user });
     } catch (error) {
-        return res.status(400).json(''+error);
+        return res.status(400).json({error: "Erro ao criar usuário: " + error});
     }
 };
 
@@ -18,7 +18,7 @@ export const deleteUserController = async (req:Request<{id:number}>, res: Respon
         const message = await deleteUser(Number(req.params.id)); 
         return res.status(200).json({message});
     } catch (error) {
-        return res.status(400).json(''+error);
+        return res.status(400).json({error: "Erro ao tentar deletar usuário: " + error});
     }
 };
 
@@ -27,7 +27,7 @@ export const getAllUserController = async (req:Request, res:Response) => {
         const users = await getAllUser();
         return res.status(200).json(users);
     } catch (error) {
-        return res.status(400).json({ error: "Erro ao buscar usuários. Tente novamente." });
+        return res.status(400).json({error: "Erro ao buscar usuários. Tente novamente: " + error});
     }
 };
 
@@ -36,7 +36,7 @@ export const getUserByIdController = async (req:Request<{id:number}>, res:Respon
         const user = await getUserById(Number(req.params.id));
         return res.status(200).json(user);
     } catch (error) {
-        return res.status(400).json({ error: "Erro ao tentar encontrar usuário."});
+        return res.status(400).json({error: "Erro ao tentar encontrar Usuário: " + error});
     }
 }
 
@@ -56,7 +56,7 @@ export const updateUserController = async (req:Request, res:Response) => {
 
         return res.status(201).json(update);
     } catch (error) {
-        return res.status(400).json(''+error);
+        return res.status(400).json({error: "Erro ao tentar atualizar usuário: " + error});
     }
 }
 

@@ -1,19 +1,22 @@
-import e from "express";
 import UserModel from "../models/UserModel";
 import bcrypt from "bcrypt";
 
 export const createUser = async (name: string, email: string, password: string, cpf: string) => {
     if (!name || name.trim() === "") {
-        throw new Error("Name is required");
+        throw new Error("Nome é obrigatório");
     }
 
     if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-        throw new Error("Invalid email");
-        
+        throw new Error("email invalido");
+    }
+
+    const cpfLimpo = cpf.replace(/\D/g, ''); // só deixa os numeros do cpf
+    if (cpfLimpo.length !== 11 || /^(\d)\1{10}$/.test(cpfLimpo) || !/^\d{3}\.\d{3}\.\d{3}-\d{2}$/.test(cpf)) {
+        throw new Error("cpf invalido");
     }
 
     if (!password || password.length < 6) {
-        throw new Error("Password must be at least 6 characters long");
+        throw new Error("A senha deve ter pelo menos 6 caracteres");
     }
 
     // Criptografando a senha
@@ -35,13 +38,13 @@ export const deleteUser = async (id:number) => {
         const userDelete = await UserModel.findByPk(id);
 
         if (!userDelete) {
-            throw new Error("User not found");
+            throw new Error("Usuário não encontrado");
         }
 
         await userDelete.destroy();
         return "Usuário deletado";
     } catch (error) {
-        throw new Error(`Erro ao tentar deletar usuário: ${error}`);
+        throw (`${error}`);
     }
 };
 
@@ -59,12 +62,12 @@ export const getUserById = async (id:number) => {
         const userId = await UserModel.findByPk(id);
         
         if (!userId) {
-            throw new Error("User not found");
+            throw new Error("Usuário não existe");
         }
 
         return userId;
     } catch (error) {
-        throw new Error(`Erro ao tentar encontrar usuário: ${error}`);
+        throw (`${error}`);
     }
 }
 
@@ -73,19 +76,24 @@ export const updateUser = async (id:number, name: string, email: string, passwor
         const user = await UserModel.findByPk(id);
         
         if (!user) {
-            throw new Error("User not found");
+            throw new Error("Usuário não encontrado");
         }
 
         if (!name || name.trim() === "") {
-            throw new Error("Name is required");
+            throw new Error("Nome é obrigatório");
         }
 
         if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-            throw new Error("Invalid email");
+            throw new Error("email invalido");
         }   
 
+        const cpfLimpo = cpf.replace(/\D/g, ''); // só deixa os numeros do cpf
+        if (cpfLimpo.length !== 11 || /^(\d)\1{10}$/.test(cpfLimpo) || !/^\d{3}\.\d{3}\.\d{3}-\d{2}$/.test(cpf)) {
+        throw new Error("cpf invalido");
+        }
+
         if (!password || password.length < 6) {
-            throw new Error("Password must be at least 6 characters long");
+            throw new Error("A senha deve ter pelo menos 6 caracteres");
         }
 
         // Criptografando a senha
