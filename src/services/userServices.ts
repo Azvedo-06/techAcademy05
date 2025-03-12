@@ -83,7 +83,8 @@ export const updateUser = async (id:number, name: string, email: string, passwor
             throw new Error("Nome é obrigatório");
         }
 
-        if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!email || !regex.test(email)) {
             throw new Error("email invalido");
         }   
 
