@@ -11,7 +11,16 @@ export const createUser = async (name: string, email: string, password: string, 
         if (!email || !regex.test(email)) {
             throw new Error("email invalido");
         } 
-        
+
+        const validarEmail = (email: string): string => {
+            const regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+            if (regex.test(email)) {
+                return email;  // Email válido
+            } else {
+                throw new Error("email invalido");  // Email inválido
+            }
+        }
+
         const cpfLimpo = cpf.replace(/\D/g, ''); // só deixa os numeros do cpf
         if (cpfLimpo.length !== 11 || /^(\d)\1{10}$/.test(cpfLimpo) || !/^\d{3}\.\d{3}\.\d{3}-\d{2}$/.test(cpf)) {
             throw new Error("cpf invalido");
@@ -27,7 +36,7 @@ export const createUser = async (name: string, email: string, password: string, 
         // Criando usuário no banco de dados
         const user = await UserModel.create({
             name,
-            email,
+            email: validarEmail(email),
             password: hashedPassword,
             cpf,
         });
@@ -36,7 +45,6 @@ export const createUser = async (name: string, email: string, password: string, 
     } catch (error) {
         throw (`${error}`);
     }
-    
 };
 
 export const deleteUser = async (id:number) => {
