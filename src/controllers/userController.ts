@@ -1,4 +1,4 @@
-import e, { Request, Response} from "express";
+import { Request, Response} from "express";
 //import UserModel from "../models/UserModel";
 import { createUser, deleteUser, getAllUser, getUserById, updateUser } from "../services/userServices";
 

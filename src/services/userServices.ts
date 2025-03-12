@@ -2,35 +2,41 @@ import UserModel from "../models/UserModel";
 import bcrypt from "bcrypt";
 
 export const createUser = async (name: string, email: string, password: string, cpf: string) => {
-    if (!name || name.trim() === "") {
-        throw new Error("Nome é obrigatório");
+    try {
+        if (!name || name.trim() === "") {
+            throw new Error("Nome é obrigatório");
+        }
+    
+        const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!email || !regex.test(email)) {
+            throw new Error("email invalido");
+        } 
+        
+        const cpfLimpo = cpf.replace(/\D/g, ''); // só deixa os numeros do cpf
+        if (cpfLimpo.length !== 11 || /^(\d)\1{10}$/.test(cpfLimpo) || !/^\d{3}\.\d{3}\.\d{3}-\d{2}$/.test(cpf)) {
+            throw new Error("cpf invalido");
+        }
+    
+        if (!password || password.length < 6) {
+            throw new Error("A senha deve ter pelo menos 6 caracteres");
+        }
+    
+        // Criptografando a senha
+        const hashedPassword = await bcrypt.hash(password, 10);
+    
+        // Criando usuário no banco de dados
+        const user = await UserModel.create({
+            name,
+            email,
+            password: hashedPassword,
+            cpf,
+        });
+    
+        return user;
+    } catch (error) {
+        throw (`${error}`);
     }
-
-    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-        throw new Error("email invalido");
-    }
-
-    const cpfLimpo = cpf.replace(/\D/g, ''); // só deixa os numeros do cpf
-    if (cpfLimpo.length !== 11 || /^(\d)\1{10}$/.test(cpfLimpo) || !/^\d{3}\.\d{3}\.\d{3}-\d{2}$/.test(cpf)) {
-        throw new Error("cpf invalido");
-    }
-
-    if (!password || password.length < 6) {
-        throw new Error("A senha deve ter pelo menos 6 caracteres");
-    }
-
-    // Criptografando a senha
-    const hashedPassword = await bcrypt.hash(password, 10);
-
-    // Criando usuário no banco de dados
-    const user = await UserModel.create({
-        name,
-        email,
-        password: hashedPassword,
-        cpf,
-    });
-
-    return user;
+    
 };
 
 export const deleteUser = async (id:number) => {
