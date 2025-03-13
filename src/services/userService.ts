@@ -124,18 +124,4 @@ class userService extends UserModel{
     }
 };
 
-export const getUserById = async (id: number) => {
-    try {
-        const user = await UserModel.findByPk(id);
-
-        if (!user) {
-            throw Error("User not found")
-        }
-
-        return user;
-    } catch (error) {
-        throw (`${error}`);
-    }
-}
-
 export default userService;
