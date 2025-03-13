@@ -5,7 +5,7 @@ class UserModel extends Model {
     id: number | undefined;
     name: string | undefined;
     email: string | undefined;
-    password: string | undefined
+    password: string | undefined;
     cpf: string | undefined;
 };
 
