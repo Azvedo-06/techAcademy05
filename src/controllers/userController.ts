@@ -1,65 +1,66 @@
 import { Request, Response} from "express";
-//import UserModel from "../models/UserModel";
-import { createUser, deleteUser, getAllUser, getUserById, updateUser } from "../services/userServices";
+import UserService  from '../services/userService'
 
 // passado no serverUser com validações feitas lá
-export const createUserController = async (req: Request, res: Response) => {
-    try {
-        const { name, email, password, cpf } = req.body;
-        const user = await createUser(name, email, password, cpf);
-        return res.status(201).json({ message: "User created successfully", user });
-    } catch (error) {
-        return res.status(400).json({error: "Erro ao criar usuário: " + error});
-    }
-};
+class userController {
+    userService = new UserService();
+    public async createUserController(req: Request, res: Response) {
+        try {
+            const { name, email, password, cpf } = req.body;
+            const user = await this.userService.createUser(name, email, password, cpf);
+            return res.status(201).json({ message: "User created successfully", user });
+        } catch (error) {
+            return res.status(400).json({error: "Erro ao criar usuário: " + error});
+        }
+    };
 
-export const deleteUserController = async (req:Request<{id:number}>, res: Response) => {
-    try {
-        const message = await deleteUser(Number(req.params.id)); 
-        return res.status(200).json({message});
-    } catch (error) {
-        return res.status(400).json({error: "Erro ao tentar deletar usuário: " + error});
-    }
-};
+    public async deleteUserController(req:Request<{id:number}>, res: Response) {
+        try {
+            const message = await this.userService.deleteUser(Number(req.params.id)); 
+            return res.status(200).json({message});
+        } catch (error) {
+            return res.status(400).json({error: "Erro ao tentar deletar usuário: " + error});
+        }
+    };
 
-export const getAllUserController = async (req:Request, res:Response) => {
-    try {
-        const users = await getAllUser();
-        return res.status(200).json(users);
-    } catch (error) {
-        return res.status(400).json({error: "Erro ao buscar usuários. Tente novamente: " + error});
-    }
-};
+    public async getAllUserController(req:Request, res:Response) {
+        try {
+            const users = await this.userService.getAllUser();
+            return res.status(200).json(users);
+        } catch (error) {
+            return res.status(400).json({error: "Erro ao buscar usuários. Tente novamente: " + error});
+        }
+    };
 
-export const getUserByIdController = async (req:Request<{id:number}>, res:Response) => {
-    try {
-        const user = await getUserById(Number(req.params.id));
-        return res.status(200).json(user);
-    } catch (error) {
-        return res.status(400).json({error: "Erro ao tentar encontrar Usuário: " + error});
+    public async getUserByIdController(req:Request<{id:number}>, res:Response) {
+        try {
+            const user = await this.userService.getUserById(Number(req.params.id));
+            return res.status(200).json(user);
+        } catch (error) {
+            return res.status(400).json({error: "Erro ao tentar encontrar Usuário: " + error});
+        }
     }
-}
 
-export const updateUserController = async (req:Request, res:Response) => {
-    try {
-        const {id} = req.params;
-        const {name, email,password, cpf} = req.body;
+    public async updateUserController(req:Request, res:Response) {
+        try {
+            const {id} = req.params;
+            const {name, email,password, cpf} = req.body;
         
-        const update = await updateUser(
-            parseInt(id, 10),
-            name,
-            email,
-            password,
-            cpf
+            const update = await this.userService.updateUser(
+                parseInt(id, 10),
+                name,
+                email,
+                password,
+                cpf
+            );
 
-        );
-
-        return res.status(201).json(update);
-    } catch (error) {
-        return res.status(400).json({error: "Erro ao tentar atualizar usuário: " + error});
+            return res.status(201).json(update);
+        } catch (error) {
+            return res.status(400).json({error: "Erro ao tentar atualizar usuário: " + error});
+        }
     }
-}
-
+};
+export default userController;
 /* create passdo direto no controller
 export const createUser = async (req:Request, res:Response) => {
     try {

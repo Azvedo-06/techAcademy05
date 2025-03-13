@@ -1,4 +1,6 @@
-import { createUser } from "../src/services/userServices";
+import UserService from "../src/services/userService";
+
+const userService = new UserService();
 
 describe('registrar usuário validação', ()  => {
     test('deve criar um user com email valido', async () => {
@@ -7,7 +9,7 @@ describe('registrar usuário validação', ()  => {
         const senha = "123456";
         const cpf = "123.456.789-10";
 
-        const resultado = await createUser(nome, email, senha, cpf);
+        const resultado = await userService.createUser(nome, email, senha, cpf);
     
         expect(resultado.name).toBe(nome);
         expect(resultado.email).toBe(email);
@@ -22,7 +24,7 @@ describe('registrar usuário validação', ()  => {
 
         try {
             // Esperando que crie o usuário e lançe o erro
-            await createUser(nome, email, senha, cpf);
+            await userService.createUser(nome, email, senha, cpf);
         } catch (erro) {
             expect(erro).toBe("Error: email invalido");
         }
