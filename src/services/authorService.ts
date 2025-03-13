@@ -12,14 +12,15 @@ class authorService extends AuthorModel {
             }
 
             // Validação da data de nascimento (verifica se é uma instância de Date válida)
-            if (!(birth instanceof Date) || isNaN(birth.getTime())) {
+            const birthDate = new Date(birth);
+            if (isNaN(birthDate.getTime())) {
                 throw new Error("Data de nascimento inválida");
             }
 
             const newAuthor = await AuthorModel.create({
                 name,
                 bio,
-                birth
+                birth: birthDate
             });
 
             return newAuthor
