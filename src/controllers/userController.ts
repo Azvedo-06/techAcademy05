@@ -1,13 +1,15 @@
 import { Request, Response} from "express";
 import UserService  from '../services/userService'
 
+
 // passado no serverUser com validações feitas lá
+
 class userController {
-    userService = new UserService();
     public async createUserController(req: Request, res: Response) {
         try {
+            const userService = new UserService();
             const { name, email, password, cpf } = req.body;
-            const user = await this.userService.createUser(name, email, password, cpf);
+            const user = await userService.createUser(name, email, password, cpf);
             return res.status(201).json({ message: "User created successfully", user });
         } catch (error) {
             return res.status(400).json({error: "Erro ao criar usuário: " + error});
@@ -16,7 +18,8 @@ class userController {
 
     public async deleteUserController(req:Request<{id:number}>, res: Response) {
         try {
-            const message = await this.userService.deleteUser(Number(req.params.id)); 
+            const userService = new UserService();
+            const message = await userService.deleteUser(Number(req.params.id)); 
             return res.status(200).json({message});
         } catch (error) {
             return res.status(400).json({error: "Erro ao tentar deletar usuário: " + error});
@@ -25,7 +28,8 @@ class userController {
 
     public async getAllUserController(req:Request, res:Response) {
         try {
-            const users = await this.userService.getAllUser();
+            const userService = new UserService();
+            const users = await userService.getAllUser();
             return res.status(200).json(users);
         } catch (error) {
             return res.status(400).json({error: "Erro ao buscar usuários. Tente novamente: " + error});
@@ -34,7 +38,8 @@ class userController {
 
     public async getUserByIdController(req:Request<{id:number}>, res:Response) {
         try {
-            const user = await this.userService.getUserById(Number(req.params.id));
+            const userService = new UserService();
+            const user = await userService.getUserById(Number(req.params.id));
             return res.status(200).json(user);
         } catch (error) {
             return res.status(400).json({error: "Erro ao tentar encontrar Usuário: " + error});
@@ -43,10 +48,11 @@ class userController {
 
     public async updateUserController(req:Request, res:Response) {
         try {
+            const userService = new UserService();
             const {id} = req.params;
             const {name, email,password, cpf} = req.body;
         
-            const update = await this.userService.updateUser(
+            const update = await userService.updateUser(
                 parseInt(id, 10),
                 name,
                 email,
@@ -60,7 +66,9 @@ class userController {
         }
     }
 };
+
 export default userController;
+
 /* create passdo direto no controller
 export const createUser = async (req:Request, res:Response) => {
     try {

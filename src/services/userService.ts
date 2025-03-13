@@ -1,7 +1,8 @@
-import UserModel from "../models/UserModel";
+import UserModel from '../models/UserModel';
 import bcrypt from "bcrypt";
 
-class UserService extends UserModel {
+class userService extends UserModel{
+    userModel = new UserModel();
     public async validatePassword(password: string): Promise<Boolean> {
         return await bcrypt.compare(password, this.password!)
     }
@@ -123,4 +124,18 @@ class UserService extends UserModel {
     }
 };
 
-export default UserService;
+export const getUserById = async (id: number) => {
+    try {
+        const user = await UserModel.findByPk(id);
+
+        if (!user) {
+            throw Error("User not found")
+        }
+
+        return user;
+    } catch (error) {
+        throw (`${error}`);
+    }
+}
+
+export default userService;
