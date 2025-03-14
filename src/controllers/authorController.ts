@@ -14,7 +14,7 @@ class authorController {
         }    
     }
 
-    public async deleteAuthorController(req:Request<{id:number}>, res: Response) {
+    public async deleteAuthorController(req:Request<{id:string}>, res: Response) {
         try {
             const authorService = new AuthorService();
             const message = await authorService.deleteAuthor(Number(req.params.id)); 
@@ -34,7 +34,7 @@ class authorController {
         }
     };
 
-    public async getAuthorByIdController(req:Request<{id:number}>, res:Response) {
+    public async getAuthorByIdController(req:Request<{id:string}>, res:Response) {
         try {
             const authorService = new AuthorService();
             const author = await authorService.getById(Number(req.params.id));
