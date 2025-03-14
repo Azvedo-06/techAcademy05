@@ -15,8 +15,8 @@ class userController {
             return res.status(400).json({error: "Erro ao criar usuário: " + error});
         }
     };
-
-    public async deleteUserController(req:Request<{id:number}>, res: Response) {
+    
+    public async deleteUserController(req:Request<{id:string}>, res: Response): Promise<Response> {
         try {
             const userService = new UserService();
             const message = await userService.deleteUser(Number(req.params.id)); 
@@ -36,7 +36,7 @@ class userController {
         }
     };
 
-    public async getUserByIdController(req:Request<{id:number}>, res:Response) {
+    public async getUserByIdController(req:Request<{id:string}>, res:Response) {
         try {
             const userService = new UserService();
             const user = await userService.getUserById(Number(req.params.id));
