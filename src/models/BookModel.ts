@@ -62,7 +62,7 @@ BookModel.belongsTo(CategoryModel, {
     as: 'category'
 })
 // mapeamento bidirecional 
-AuthorModel.hasMany(BookModel, {
+CategoryModel.hasMany(BookModel, {
     foreignKey: 'categoryId',
     as: 'category'
 })
