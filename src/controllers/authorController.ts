@@ -24,20 +24,20 @@ class authorController {
         }
     };
 
-    public async getAllAuthorController(req:Request, res:Response) {
+    public async findAllAuthorController(req:Request, res:Response) {
         try {
             const authorService = new AuthorService();
-            const Author = await authorService.getAllAuthor();
+            const Author = await authorService.findAllAuthor();
             return res.status(200).json(Author);
         } catch (error) {
             return res.status(400).json({error: "Erro ao buscar Autores. Tente novamente: " + error});
         }
     };
 
-    public async getAuthorByIdController(req:Request<{id:string}>, res:Response) {
+    public async findAuthorByIdController(req:Request<{id:string}>, res:Response) {
         try {
             const authorService = new AuthorService();
-            const author = await authorService.getAuthorById(Number(req.params.id));
+            const author = await authorService.findAuthorById(Number(req.params.id));
             return res.status(200).json(author);
         } catch (error) {
             return res.status(400).json({error: "Erro ao tentar encontrar Autor: " + error});

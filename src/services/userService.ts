@@ -59,7 +59,7 @@ class userService extends UserModel{
         }
     };
 
-    public async getAllUser() {
+    public async findAllUser() {
         try {
             const users = await UserModel.findAll();
             return users;
@@ -68,7 +68,7 @@ class userService extends UserModel{
         }
     }
 
-    public async getUserById(id:number) {
+    public async findUserById(id:number) {
         try {
             const userId = await UserModel.findByPk(id);
         

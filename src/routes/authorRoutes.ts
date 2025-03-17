@@ -7,9 +7,9 @@ const router = express.Router();
 const authorController = new AuthorController();
 
 router.post('/author', authMiddleware, authorController.createAuthorController); 
-router.get('/author', authMiddleware, authorController.getAllAuthorController)
+router.get('/author', authMiddleware, authorController.findAllAuthorController)
 router.delete('/author/:id', authMiddleware, authorController.deleteAuthorController);
 router.patch('/author/:id', authMiddleware, authorController.updateAuthorController);
-router.get('/author/:id', authMiddleware, authorController.getAuthorByIdController);
+router.get('/author/:id', authMiddleware, authorController.findAuthorByIdController);
 
 export default router;

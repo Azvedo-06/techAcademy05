@@ -23,7 +23,7 @@ class categoryController {
         }
     };
 
-    public async getAllCategoryController(req:Request, res:Response) {
+    public async findAllCategoryController(req:Request, res:Response): Promise<Response<any, Record<string, any>>> {
         try {
             const categoryService = new CategoryService();
             const users = await categoryService.findAllCategory();
@@ -33,7 +33,7 @@ class categoryController {
         }
     };
 
-    public async getCategoryByIdController(req:Request<{id:string}>, res:Response) {
+    public async findCategoryByIdController(req:Request<{id:string}>, res:Response): Promise<Response<any, Record<string, any>>> {
         try {
             const categoryService = new CategoryService();
             const user = await categoryService.findCategoryById(Number(req.params.id));
@@ -43,7 +43,7 @@ class categoryController {
         }
     }
 
-    public async updateCategoryController(req:Request, res:Response) {
+    public async updateCategoryController(req:Request, res:Response): Promise<Response<any, Record<string, any>>> {
         try {
             const categoryService = new CategoryService();
             const {id} = req.params;

@@ -26,20 +26,20 @@ class userController {
         }
     };
 
-    public async getAllUserController(req:Request, res:Response) {
+    public async findAllUserController(req:Request, res:Response) {
         try {
             const userService = new UserService();
-            const users = await userService.getAllUser();
+            const users = await userService.findAllUser();
             return res.status(200).json(users);
         } catch (error) {
             return res.status(400).json({error: "Erro ao buscar usuários. Tente novamente: " + error});
         }
     };
 
-    public async getUserByIdController(req:Request<{id:string}>, res:Response) {
+    public async findUserByIdController(req:Request<{id:string}>, res:Response) {
         try {
             const userService = new UserService();
-            const user = await userService.getUserById(Number(req.params.id));
+            const user = await userService.findUserById(Number(req.params.id));
             return res.status(200).json(user);
         } catch (error) {
             return res.status(400).json({error: "Erro ao tentar encontrar Usuário: " + error});
