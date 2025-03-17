@@ -27,7 +27,7 @@ class authorController {
     public async getAllAuthorController(req:Request, res:Response) {
         try {
             const authorService = new AuthorService();
-            const Author = await authorService.getAll();
+            const Author = await authorService.getAllAuthor();
             return res.status(200).json(Author);
         } catch (error) {
             return res.status(400).json({error: "Erro ao buscar Autores. Tente novamente: " + error});
@@ -37,7 +37,7 @@ class authorController {
     public async getAuthorByIdController(req:Request<{id:string}>, res:Response) {
         try {
             const authorService = new AuthorService();
-            const author = await authorService.getById(Number(req.params.id));
+            const author = await authorService.getAuthorById(Number(req.params.id));
             return res.status(200).json(author);
         } catch (error) {
             return res.status(400).json({error: "Erro ao tentar encontrar Autor: " + error});

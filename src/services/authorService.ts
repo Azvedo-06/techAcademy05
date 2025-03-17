@@ -44,7 +44,7 @@ class authorService extends AuthorModel {
         }
     };
 
-    public async getAll() {
+    public async getAllAuthor() {
         try {
             const authors = await AuthorModel.findAll();
             return authors
@@ -53,7 +53,7 @@ class authorService extends AuthorModel {
         }
     }
 
-    public async getById(id:number) {
+    public async getAuthorById(id:number) {
         try {
             const authorId = await AuthorModel.findByPk(id);
             
