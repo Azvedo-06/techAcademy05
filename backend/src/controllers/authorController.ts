@@ -1,4 +1,3 @@
-import authorService from "../services/authorService";
 import AuthorService from "../services/authorService";
 import {Request, Response } from "express";
 
