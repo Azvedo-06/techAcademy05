@@ -26,12 +26,23 @@ class bookService extends BookModel {
 
     public async createBook(title:string, description:string, publication_date:Date, authorId:number, categoryId:number): Promise<BookModel> {
         try {
-            validarBook(title, description, publication_date);
-
+            if (!title || title.trim() === "") {
+                throw ("Titulo é obrigatório");
+            }
+        
+            if (!description || title.trim() === "") {
+                throw ("Descrição é obrigatório");
+            }
+        
+            const publicationDate = new Date(publication_date);
+            if (isNaN(publicationDate.getTime())) {
+                throw ("Data de publicação inválida");
+            }
+            
             const newBook = BookModel.create({
                 title,
                 description,
-                publication_date: validarBook,
+                publication_date: publicationDate,
                 authorId,
                 categoryId
             });
@@ -47,7 +58,7 @@ class bookService extends BookModel {
             const BookDelete = await BookModel.findByPk(id);
             
             if (!BookDelete) {
-                throw new Error("Livro não encontrado");
+                throw ("Livro não encontrado");
             }
 
             await BookDelete.destroy();
@@ -61,27 +72,27 @@ class bookService extends BookModel {
     public async updateBook(id:number, title:string, description:string, publication_date:Date, authorId:number, categoryId:number): Promise<BookModel> {
         try {
             const book = await BookModel.findByPk(id);
-
-            if (!book) {
-                throw Error("Livro não encontrado");
+            
+            if(!book) {
+                throw ("Livro não encontrado");
             }
 
             if (!title || title.trim() === "") {
-                throw new Error("Titulo é obrigatório");
+                throw ("Titulo é obrigatório");
             }
-
+        
             if (!description || title.trim() === "") {
-                throw new Error("Descrição é obrigatório");
+                throw ("Descrição é obrigatório");
             }
-
+        
             const publicationDate = new Date(publication_date);
             if (isNaN(publicationDate.getTime())) {
-                throw new Error("Data de publicação inválida");
+                throw ("Data de publicação inválida");
             }
 
             book.title = title;
             book.description = description;
-            book.publication_date = publication_date;
+            book.publication_date = publicationDate;
             book.authorId = authorId;
             book.categoryId = categoryId;
 
@@ -89,24 +100,9 @@ class bookService extends BookModel {
             return book;
 
         } catch (error) {
-            throw new Error(`Erro ao tentar atualizar livro: ${error}`);
+            throw (`${error}`);
         }
     }
 };
 
 export default bookService;
-
-function validarBook(title: string, description: string, publication_date: Date) {
-    if (!title || title.trim() === "") {
-        throw new Error("Titulo é obrigatório");
-    }
-
-    if (!description || title.trim() === "") {
-        throw new Error("Descrição é obrigatório");
-    }
-
-    const publicationDate = new Date(publication_date);
-    if (isNaN(publicationDate.getTime())) {
-        throw new Error("Data de publicação inválida");
-    }
-}

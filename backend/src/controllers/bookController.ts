@@ -17,7 +17,7 @@ class bookController {
             const {title, description, publication_date, authorId, categoryId} = req.body;
             const book = await bookService.createBook(title, description, publication_date, authorId, categoryId);
 
-            return res.status(201).json({ message: "Book created successfully", book }); 
+            return res.status(201).json(book); 
         } catch (error) {
             return res.status(400).json({error: "Erro ao criar o livro: " + error});
         }
@@ -25,27 +25,27 @@ class bookController {
 
     public async deleteBookController(req:Request<{id:string}>, res:Response): Promise<Response<any, Record<string, any>>> {
         try {
-            const message = await bookService.deleteBook(Number(req.params.id));
+            const bookDelete = await bookService.deleteBook(Number(req.params.id));
 
-            return res.status(200).json({message});
+            return res.status(200).json(bookDelete);
         } catch (error) {
             return res.status(400).json({error: "Erro ao tentar deletar livro: " + error});
         }
     }
 
-    public async findBookByIDController(req:Request<{id:string}>, res:Response): Promise<Response<any, Record<string, any>>> {
+    public async findBookByIdController(req:Request<{id:string}>, res:Response): Promise<Response<any, Record<string, any>>> {
         try {
             const book = await bookService.findBookById(Number(req.params.id));
 
-            return res.status(200).json({book})
+            return res.status(200).json(book)
         } catch (error) {
-            return res.status(400).json({error: "Erro ao tentar encontrar o livro. Tente novamente: " + error});
+            return res.status(400).json({error: "erro Tente novamente: " + error});
         }
     }
 
     public async updateBookController(req:Request, res:Response) {
         try {
-            const {id} = req.body;
+            const {id} = req.params;
             const {title, description, publication_date, authorId, categoryId} = req.body;
 
             const update = await bookService.updateBook(
@@ -57,8 +57,9 @@ class bookController {
                 categoryId
             );
 
+            return res.status(201).json(update);
         } catch (error) {
-            
+            return res.status(400).json({error: "Erro ao tentar atualizar livro: " + error});
         }
     }
 };
