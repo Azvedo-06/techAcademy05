@@ -10,21 +10,21 @@ class userService extends UserModel{
     public async createUser(name: string, email: string, password: string, cpf: string): Promise<UserModel> {
         try {
             if (!name || name.trim() === "") {
-                throw new Error("Nome é obrigatório");
+                throw ("Nome é obrigatório");
             }
         
             const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             if (!email || !regex.test(email)) {
-                throw new Error("email invalido");
+                throw ("email inválido");
             } 
 
             const cpfLimpo = cpf.replace(/\D/g, ''); // só deixa os numeros do cpf
             if (cpfLimpo.length !== 11 || /^(\d)\1{10}$/.test(cpfLimpo) || !/^\d{3}\.\d{3}\.\d{3}-\d{2}$/.test(cpf)) {
-                throw new Error("cpf invalido");
+                throw ("cpf inválido");
             }
     
             if (!password || password.length < 6) {
-                throw new Error("A senha deve ter pelo menos 6 caracteres");
+                throw ("A senha deve ter pelo menos 6 caracteres");
             }
     
             // Criptografando a senha
@@ -44,12 +44,12 @@ class userService extends UserModel{
         }
     };
 
-    public async deleteUser(id:number) {
+    public async deleteUser(id:number): Promise<string> {
         try {
             const userDelete = await UserModel.findByPk(id);
 
             if (!userDelete) {
-                throw new Error("Usuário não encontrado");
+                throw ("Usuário não encontrado");
             }
 
             await userDelete.destroy();
@@ -59,21 +59,21 @@ class userService extends UserModel{
         }
     };
 
-    public async findAllUser() {
+    public async findAllUser(): Promise<UserModel[]> {
         try {
             const users = await UserModel.findAll();
             return users;
         } catch (error) {
-            throw new Error("Erro ao buscar usuários. Tente novamente.");
+            throw (`${error}`);
         }
     }
 
-    public async findUserById(id:number) {
+    public async findUserById(id:number): Promise<UserModel> {
         try {
             const userId = await UserModel.findByPk(id);
         
             if (!userId) {
-                throw new Error("Usuário não existe");
+                throw ("Usuário não existe");
             }
 
             return userId;
@@ -82,30 +82,30 @@ class userService extends UserModel{
         }
     }
 
-    public async updateUser(id:number, name: string, email: string, password: string, cpf: string) {
+    public async updateUser(id:number, name: string, email: string, password: string, cpf: string): Promise<UserModel> {
         try {
             const user = await UserModel.findByPk(id);
         
             if (!user) {
-                throw new Error("Usuário não encontrado");
+                throw ("Usuário não encontrado");
             }
 
             if (!name || name.trim() === "") {
-                throw new Error("Nome é obrigatório");
+                throw ("Nome é obrigatório");
             }
 
             const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             if (!email || !regex.test(email)) {
-                throw new Error("email invalido");
+                throw ("email invalido");
             }   
 
             const cpfLimpo = cpf.replace(/\D/g, ''); // só deixa os numeros do cpf
             if (cpfLimpo.length !== 11 || /^(\d)\1{10}$/.test(cpfLimpo) || !/^\d{3}\.\d{3}\.\d{3}-\d{2}$/.test(cpf)) {
-            throw new Error("cpf invalido");
+                throw ("cpf invalido");
             }
 
             if (!password || password.length < 6) {
-                throw new Error("A senha deve ter pelo menos 6 caracteres");
+                throw ("A senha deve ter pelo menos 6 caracteres");
             }
 
             // Criptografando a senha
@@ -119,7 +119,7 @@ class userService extends UserModel{
             await user.save();
             return user;
         } catch (error) {
-            throw new Error(`Erro ao tentar atualizar usuário: ${error}`);
+            throw (`${error}`);
         }
     }
 };
