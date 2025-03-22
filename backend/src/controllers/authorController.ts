@@ -37,7 +37,7 @@ class authorController {
         try {
             const authorService = new AuthorService();
             const author = await authorService.findAuthorById(Number(req.params.id));
-            return res.status(200).json(author);
+            return res.status(200).json({author});
         } catch (error) {
             return res.status(400).json({error: "Erro ao tentar encontrar Autor: " + error});
         }
