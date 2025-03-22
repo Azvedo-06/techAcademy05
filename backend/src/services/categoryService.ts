@@ -5,7 +5,7 @@ class categoryService extends CategoryModel{
     public async createCategory(name:string): Promise<CategoryModel> {
         try {
             if (!name || name.trim() === "") {
-                throw new Error("Nome da categoria é obrigatório");
+                throw ("Nome da categoria é obrigatório");
             }
             const category = await CategoryModel.create({
                 name
@@ -22,7 +22,7 @@ class categoryService extends CategoryModel{
             const categoryDelete = await CategoryModel.findByPk(id);
             
             if (!categoryDelete) {
-                throw Error("Categoria não encontrada");
+                throw ("Categoria não encontrada");
             }
 
             await CategoryModel.destroy();
@@ -37,7 +37,7 @@ class categoryService extends CategoryModel{
             const categorys = await CategoryModel.findAll();
             return categorys;
         } catch (error) {
-            throw new Error("Erro ao buscar usuários. Tente novamente.");
+            throw (`${error}`);
         }
     }
 
@@ -46,7 +46,7 @@ class categoryService extends CategoryModel{
             const categoryId = await CategoryModel.findByPk(id);
         
             if (!categoryId) {
-                throw new Error("Categoria não existe");
+                throw ("Categoria não existe");
             }
 
             return categoryId;
@@ -60,11 +60,11 @@ class categoryService extends CategoryModel{
             const category = await CategoryModel.findByPk(id);
 
             if (!category) {
-                throw new Error("Categoria não encontrado");
+                throw ("Categoria não encontrado");
             }
 
             if (!name || name.trim() === "") {
-                throw new Error("Nome da categoria é obrigatório");
+                throw ("Nome da categoria é obrigatório");
             }
 
             category.name = name;
@@ -73,7 +73,7 @@ class categoryService extends CategoryModel{
             return category;
 
         } catch(error) {
-            throw new Error(`Erro ao tentar atualizar categoria: ${error}`);
+            throw (`${error}`);
         }
     }
 }
