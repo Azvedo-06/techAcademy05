@@ -1,20 +1,20 @@
 import AuthorModel from "../models/AuthorModel";
 
 class authorService extends AuthorModel {
-    public async createAuthor(name: string, bio: string, birth: Date) {
+    public async createAuthor(name: string, bio: string, birth: Date): Promise<AuthorModel> {
         try {
             if (!name || name.trim() === "") {
-                throw new Error('Nome é obrigatório');
+                throw ('Nome é obrigatório');
             }
 
             if (!bio || bio.trim() === "") {
-                throw new Error("Bio é obrigatório");
+                throw ("Bio é obrigatório");
             }
 
             // Validação da data de nascimento (verifica se é uma instância de Date válida)
             const birthDate = new Date(birth);
             if (isNaN(birthDate.getTime())) {
-                throw new Error("Data de nascimento inválida");
+                throw ("Data de nascimento inválida");
             }
 
             const newAuthor = await AuthorModel.create({
@@ -29,12 +29,12 @@ class authorService extends AuthorModel {
         }
     }
 
-    public async deleteAuthor(id:number) {
+    public async deleteAuthor(id:number): Promise<string> {
         try {
             const AuthorDelete = await AuthorModel.findByPk(id);
 
             if (!AuthorDelete) {
-                throw new Error("Autor não encontrado");
+                throw ("Autor não encontrado");
             }
 
             await AuthorDelete.destroy();
@@ -44,21 +44,21 @@ class authorService extends AuthorModel {
         }
     };
 
-    public async findAllAuthor() {
+    public async findAllAuthor(): Promise<AuthorModel[]> {
         try {
             const authors = await AuthorModel.findAll();
             return authors
         } catch (error) {
-            throw Error("Erro ao buscar autores. Tente novamente.")
+            throw (`${error}`)
         }
     }
 
-    public async findAuthorById(id:number) {
+    public async findAuthorById(id:number): Promise<AuthorModel> {
         try {
             const authorId = await AuthorModel.findByPk(id);
             
             if (!authorId) {
-                throw Error("Erro ao buscar autor");
+                throw ("Erro ao buscar autor");
             }
 
             return authorId
@@ -67,25 +67,25 @@ class authorService extends AuthorModel {
         }
     }
 
-    public async updateAuthor(id: number, name: string, bio: string, birth: Date) {
+    public async updateAuthor(id: number, name: string, bio: string, birth: Date): Promise<AuthorModel> {
         try {
             const author = await AuthorModel.findByPk(id);
 
             if(!author) {
-                throw Error("Erro ao buscar autor");
+                throw ("Erro ao buscar autor");
             }
 
             if (!name || name.trim() === "") {
-                throw new Error('Nome é obrigatório');
+                throw ('Nome é obrigatório');
             }
 
             if (!bio || bio.trim() === "") {
-                throw new Error("Bio é obrigatório");
+                throw ("Bio é obrigatório");
             }
 
             // Validação da data de nascimento (verifica se é uma instância de Date válida)
             if (!(birth instanceof Date) || isNaN(birth.getTime())) {
-                throw new Error("Data de nascimento inválida");
+                throw ("Data de nascimento inválida");
             }
 
             author.name = name
@@ -96,7 +96,7 @@ class authorService extends AuthorModel {
             return author;
 
         } catch (error) {
-            throw new Error(`Erro ao tentar atualizar usuário: ${error}`);
+            throw (`${error}`);
         }
     }
 };
