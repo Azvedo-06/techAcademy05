@@ -26,7 +26,7 @@ describe('registrar usuário validação', ()  => {
             // Esperando que crie o usuário e lançe o erro
             await userService.createUser(nome, email, senha, cpf);
         } catch (erro) {
-            expect(erro).toBe("Error: email invalido");
+            expect(erro).toBe("email inválido");
         }
     })
 })
