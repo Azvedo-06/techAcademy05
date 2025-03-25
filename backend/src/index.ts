@@ -5,6 +5,7 @@ import loginRoutes from "./routes/loginRoutes";
 import authorRoutes from "./routes/authorRoutes"
 import categoryRoutes from "./routes/categoryRoutes";
 import bookRoutes from "./routes/bookRoutes"
+import reviewRoutes from "./routes/reviewRoutes"
 
 const app = express();
 const PORT = 3000;
@@ -19,6 +20,7 @@ app.use(userRoutes);
 app.use(loginRoutes);
 app.use(categoryRoutes);
 app.use(bookRoutes);
+app.use(reviewRoutes);
 
 // sync database
 sequelize

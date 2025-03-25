@@ -25,7 +25,7 @@ class categoryService extends CategoryModel{
                 throw ("Categoria não encontrada");
             }
 
-            await CategoryModel.destroy();
+            await categoryDelete.destroy();
             return "Categoria Deletada";            
         } catch (error) {
             throw (`${error}`);

@@ -34,10 +34,18 @@ BookModel.init(
         authorId: {
             type: DataTypes.INTEGER,
             allowNull: true,
+            references: {
+                model: AuthorModel,
+                key: 'id'
+            }
         },
         categoryId: {
             type: DataTypes.INTEGER,
             allowNull: true,
+            references: {
+                model: CategoryModel,
+                key: 'id'
+            }
         },
     },
     {
@@ -51,16 +59,18 @@ BookModel.belongsTo(AuthorModel, {
     foreignKey: 'authorId', // definindo qual é a fk
     as: 'author' // define o nome da relação na busca
 })
-// mapeamento bidirecional 
-AuthorModel.hasMany(BookModel, {
-    foreignKey: 'authorId',
-    as: 'author'
-})
 
 BookModel.belongsTo(CategoryModel, {
     foreignKey: 'categoryId', 
     as: 'category'
 })
+
+//mapeamento bidirecional 
+AuthorModel.hasMany(BookModel, {
+    foreignKey: 'authorId',
+    as: 'author'
+})
+
 // mapeamento bidirecional 
 CategoryModel.hasMany(BookModel, {
     foreignKey: 'categoryId',
