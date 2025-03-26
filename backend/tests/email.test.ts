@@ -3,7 +3,7 @@ import UserService from "../src/services/userService";
 const userService = new UserService();
 
 describe('registrar usuário validação', ()  => {
-    test('deve criar um user com email valido', async () => {
+    test('deve criar um user valido', async () => {
         const nome = "andre";
         const email = "andre@gmail.com";  // Email válido
         const senha = "123456";
@@ -27,6 +27,26 @@ describe('registrar usuário validação', ()  => {
             await userService.createUser(nome, email, senha, cpf);
         } catch (erro) {
             expect(erro).toBe("email inválido");
+        }
+    })
+
+    test('não deve criar usuário com senha menor que 6 caracteres', async () => {
+        const senha = "12345";
+
+        try {
+            await userService.createUser("adm2", "adm2@gmail.com", senha, "123.456.789-00")
+        } catch (error) {
+            expect(error).toBe("A senha deve ter pelo menos 6 caracteres")
+        }
+    })
+
+    test('não deve criar usuário com senha cpf inválido', async () => {
+        const cpfInvalido = "123.456.789-1"
+
+        try {
+            await userService.createUser("adm2", "adm2@gmail.com", "123456", cpfInvalido)
+        } catch (error) {
+            expect(error).toBe("cpf inválido")
         }
     })
 })
