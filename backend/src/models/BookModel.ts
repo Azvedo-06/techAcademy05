@@ -35,7 +35,7 @@ BookModel.init(
             type: DataTypes.INTEGER,
             allowNull: true,
             references: {
-                model: AuthorModel,
+                model: "authors",
                 key: 'id'
             }
         },
@@ -43,7 +43,7 @@ BookModel.init(
             type: DataTypes.INTEGER,
             allowNull: true,
             references: {
-                model: CategoryModel,
+                model: "categorys",
                 key: 'id'
             }
         },

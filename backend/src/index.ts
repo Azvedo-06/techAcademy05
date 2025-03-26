@@ -5,7 +5,7 @@ import loginRoutes from "./routes/loginRoutes";
 import authorRoutes from "./routes/authorRoutes"
 import categoryRoutes from "./routes/categoryRoutes";
 import bookRoutes from "./routes/bookRoutes"
-import reviewRoutes from "./routes/reviewRoutes"
+import reviewRoutes from "./routes/reviewsRoutes"
 
 const app = express();
 const PORT = 3000;
