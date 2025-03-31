@@ -1,26 +1,15 @@
-
-import e from "express";
 import ReviewsModel from "../models/ReviewsModel";
-
+import
+{ validateReviewsComments, validateReviewsNota, validateReviewsExist}
+from "../utils/funcoes";
 class reviewsService extends ReviewsModel {
     public async createReviews(comments:string, nota:number, userId:number, bookId:number): Promise<ReviewsModel> {
         try {
-
-            if (!comments || comments.trim() === "" ) {
-                throw ("Comentário é obrigatório");
-            }
-
-            if (!nota) {
-                throw ("Nota é obrigatório");
-            }   
-
-            const reviews = await ReviewsModel.create({
-                comments,
-                nota,
-                userId,
-                bookId
-            })
-            
+            // funções de validação
+            validateReviewsComments(comments);
+            validateReviewsNota(nota);
+            // criando reviews no banco
+            const reviews = await ReviewsModel.create({comments, nota, userId, bookId})
             return reviews
         } catch (error) {
             throw (`${error}`);
@@ -38,12 +27,7 @@ class reviewsService extends ReviewsModel {
 
     public async findReviewsById(id:number): Promise<ReviewsModel> {
         try {
-            const reviewsId = await ReviewsModel.findByPk(id);
-
-            if (!reviewsId) {
-                throw ("Comentário não existe");
-            }
-
+            const reviewsId = await validateReviewsExist(id);
             return reviewsId
         } catch (error) {
             throw (`${error}`);
@@ -52,12 +36,7 @@ class reviewsService extends ReviewsModel {
 
     public async deleteReviews(id:number): Promise<string> {
         try {
-            const reviewsDelete = await ReviewsModel.findByPk(id);
-
-            if (!reviewsDelete) {
-                throw ("Comentário não encontrado");
-            }
-
+            const reviewsDelete = await validateReviewsExist(id);
             reviewsDelete.destroy();
             return "Reviews deletado";
         } catch (error) {
@@ -67,25 +46,15 @@ class reviewsService extends ReviewsModel {
 
     public async updateReviews(id:number, comments:string, nota:number, userId:number, bookId:number) {
         try {
-            const reviews = await ReviewsModel.findByPk(id);
-
-            if (!reviews) {
-                throw ("Comentário não existe");
-            }
-
-            if (!comments || comments.trim() === "" ) {
-                throw ("Comentário é obrigatório");
-            }
-
-            if (!nota) {
-                throw ("Nota é obrigatório");
-            }   
-
+            const reviews = await validateReviewsExist(id);
+            validateReviewsComments(comments);
+            validateReviewsNota(nota); 
+            // atualizando reviews
             reviews.comments = comments
             reviews.nota = nota
             reviews.userId = userId
             reviews.BookId = bookId
-
+            // salvando 
             reviews.save();
             return reviews;
         } catch (error) {

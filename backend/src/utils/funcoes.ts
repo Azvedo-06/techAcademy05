@@ -1,6 +1,7 @@
-import  { json }  from "sequelize"
 import UserModel from "../models/UserModel";
 import bcrypt from "bcrypt";
+import ReviewsModel from "../models/ReviewsModel";
+import CategoryModel from "../models/CategoryModel";
 
 /*
 export async function mountPagenation(filtes:any) {
@@ -59,4 +60,40 @@ export async function validateUserExist(id:number): Promise<UserModel>  {
         throw ("Usuário não encontrado");
     }
     return user;
+}
+
+// funções de Reviews
+export function validateReviewsComments(comments:string): void {
+    if (!comments || comments.trim() === "" ) {
+        throw ("Comentário é obrigatório");
+    }
+}
+
+export function validateReviewsNota(nota:number): void {
+    if (!nota) {
+        throw ("Nota é obrigatório");
+    }       
+}
+
+export async function validateReviewsExist(id:number): Promise<ReviewsModel>  {
+    const reviews = await ReviewsModel.findByPk(id);
+    if (!reviews) {
+        throw ("Comentario não encontrado");
+    }
+    return reviews;
+}
+
+// funções category
+export function validateCategoryName(name:string): void {
+    if (!name || name.trim() === "") {
+        throw ("Nome da categoria é obrigatório");
+    }
+}
+
+export async function validateCategoryExist(id:number): Promise<CategoryModel> {
+    const category = await CategoryModel.findByPk(id);
+    if (!category) {
+        throw ("Categoria não encontrada");
+    }
+    return category;
 }

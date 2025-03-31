@@ -1,11 +1,7 @@
 import UserModel from '../models/UserModel';
-import {validateUserName,
-        validateUserEmail,
-        validateUserCpf,
-        validateUserPassword,
-        validateUserHash,
-        validateUserExist
-    } from '../utils/funcoes';
+import 
+{validateUserName, validateUserEmail, validateUserCpf, validateUserPassword, validateUserHash, validateUserExist}
+from '../utils/funcoes';
 
 class userService extends UserModel{
     public async createUser(name: string, email: string, password: string, cpf: string): Promise<UserModel> {
