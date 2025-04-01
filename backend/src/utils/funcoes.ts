@@ -2,6 +2,8 @@ import UserModel from "../models/UserModel";
 import bcrypt from "bcrypt";
 import ReviewsModel from "../models/ReviewsModel";
 import CategoryModel from "../models/CategoryModel";
+import BookModel from "../models/BookModel";
+import AuthorModel from "../models/AuthorModel";
 
 /*
 export async function mountPagenation(filtes:any) {
@@ -17,15 +19,27 @@ export async function mountPagenation(filtes:any) {
 }
 */
 
-// funções de User
-const userModel = new UserModel();
-export function validatePassword(password: string): Promise<Boolean> {
-         return bcrypt.compare(password, userModel.password!)
-    }
-
-export function validateUserName(name:string): void {
+export function validateNameUser(name:string): void {
     if (!name || name.trim() === "") {
         throw ("Nome é obrigatório");
+    }
+}
+
+export function validateNameCategory(name: string): void {
+    if (!name || name.trim() === "") {
+        throw ("Nome da categoria obrigatório");
+    }
+}
+
+export function validateBookTitle(title:string): void {
+    if(!title || title.trim() === "") {
+        throw ("Titulo é obrigatório");
+    }
+}
+
+export function validateAuthorComments(comments:string): void {
+    if (!comments || comments.trim() === "" ) {
+        throw ("Comentário é obrigatório");
     }
 }
 
@@ -62,13 +76,6 @@ export async function validateUserExist(id:number): Promise<UserModel>  {
     return user;
 }
 
-// funções de Reviews
-export function validateReviewsComments(comments:string): void {
-    if (!comments || comments.trim() === "" ) {
-        throw ("Comentário é obrigatório");
-    }
-}
-
 export function validateReviewsNota(nota:number): void {
     if (!nota) {
         throw ("Nota é obrigatório");
@@ -83,17 +90,54 @@ export async function validateReviewsExist(id:number): Promise<ReviewsModel>  {
     return reviews;
 }
 
-// funções category
-export function validateCategoryName(name:string): void {
-    if (!name || name.trim() === "") {
-        throw ("Nome da categoria é obrigatório");
-    }
-}
-
 export async function validateCategoryExist(id:number): Promise<CategoryModel> {
     const category = await CategoryModel.findByPk(id);
     if (!category) {
         throw ("Categoria não encontrada");
     }
     return category;
+}
+
+export async function validateBookExist(id:number): Promise<BookModel> {
+    const book = await BookModel.findByPk(id);
+    if(!book) {
+        throw ("Livro não encontrado");
+    }
+    return book;
+}
+
+export function validateBookDate(publication_date:Date): Date {
+    const publicationDate = new Date(publication_date);
+    if (isNaN(publicationDate.getTime())) {
+        throw ("Data de publicação inválida");
+    }
+    return publicationDate;
+}
+
+export function validateBookDescription(description:string): void {
+    if (!description || description.trim() === "") {
+        throw ("Descrição é obrigatório");
+    }
+} 
+
+export function validateAuthorBio(bio:string): void {
+    if (!bio || bio.trim() === "") {
+        throw ("Bio é obrigatório");
+    }
+}
+
+export async function validateAuthorExist(id:number): Promise<AuthorModel> {
+    const author = await AuthorModel.findByPk(id);
+    if(!author) {
+        throw ("Livro não encontrado");
+    }
+    return author;
+}
+
+export function validateAuthorDate(birth:Date): Date {
+    const birthAuthor = new Date(birth);
+    if (isNaN(birth.getTime())) {
+        throw ("Data de publicação inválida");
+    }
+    return birthAuthor;
 }

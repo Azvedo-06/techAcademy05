@@ -1,5 +1,4 @@
 import { Request, Response } from "express";
-import { validatePassword } from "../utils/funcoes";
 import UserService from "../services/userService";
 import { generateToken } from "../utils/jwt";
 
@@ -17,7 +16,7 @@ class LoginUsers {
             return res.status(404).json({error: 'Usuário não encontrado'})
         }
         
-        const isValidPassword = await validatePassword(password);
+        const isValidPassword = await user.validatePassword(password);
         if (!isValidPassword) {
             return res.status(400).json({error: 'E-mail ou senha inválidos'})
         }
