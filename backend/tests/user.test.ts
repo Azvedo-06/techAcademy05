@@ -15,7 +15,7 @@ describe('registrar usuário validação', ()  => {
         expect(resultado.email).toBe(email);
         expect(resultado.cpf).toBe(cpf);
     })
-
+    
     test('não deve criar usuário com email inválido', async () => {
         const nome = "Maria";
         const email = "mariagmail.com";  // Email inválido

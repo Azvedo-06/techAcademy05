@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import UserService from "../services/userService";
-import { generateToken } from "../utils/jwt";
+import { generateToken } from "../config/jwt";
 
 class LoginUsers {
     public async loginUser(req: Request, res: Response): Promise<Response<any, Record<string, any>> | undefined> {

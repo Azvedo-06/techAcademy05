@@ -46,14 +46,14 @@ export function validateAuthorComments(comments:string): void {
 export function validateUserEmail(email:string): void {
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!email || !regex.test(email)) {
-        throw ("email invalido");
+        throw ("email inválido");
     }
 }
 
 export function validateUserCpf(cpf:string): void {
     const cpfLimpo = cpf.replace(/\D/g, ''); // só deixa os numeros do cpf
     if (cpfLimpo.length !== 11 || /^(\d)\1{10}$/.test(cpfLimpo) || !/^\d{3}\.\d{3}\.\d{3}-\d{2}$/.test(cpf)) {
-        throw ("cpf invalido");
+        throw ("cpf inválido");
     }
 }
 
