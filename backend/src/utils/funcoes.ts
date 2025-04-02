@@ -45,6 +45,9 @@ export function validateAuthorComments(comments:string): void {
 
 export function validateUserEmail(email:string): void {
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if(!email || email.trim() === "") {
+        throw ("email é obrigatório");
+    }
     if (!email || !regex.test(email)) {
         throw ("email inválido");
     }
@@ -54,6 +57,26 @@ export function validateUserCpf(cpf:string): void {
     const cpfLimpo = cpf.replace(/\D/g, ''); // só deixa os numeros do cpf
     if (cpfLimpo.length !== 11 || /^(\d)\1{10}$/.test(cpfLimpo) || !/^\d{3}\.\d{3}\.\d{3}-\d{2}$/.test(cpf)) {
         throw ("cpf inválido");
+    }
+    // Cálculo do primeiro dígito verificador
+    let soma1 = 0;
+    for (let i = 0; i < 9; i++) {
+        soma1 += parseInt(cpfLimpo.charAt(i)) * (10 - i);
+    }
+    let resto1 = soma1 % 11;
+    let digito1 = resto1 < 2 ? 0 : 11 - resto1;
+
+    // Cálculo do segundo dígito verificador
+    let soma2 = 0;
+    for (let i = 0; i < 10; i++) {
+        soma2 += parseInt(cpfLimpo.charAt(i)) * (11 - i);
+    }
+    let resto2 = soma2 % 11;
+    let digito2 = resto2 < 2 ? 0 : 11 - resto2;
+
+    // Verificar se os dois últimos dígitos do CPF correspondem aos dígitos calculados
+    if (cpfLimpo.charAt(9) !== digito1.toString() || cpfLimpo.charAt(10) !== digito2.toString()) {
+        throw new Error("CPF inválido");
     }
 }
 
