@@ -6,7 +6,6 @@ from '../utils/funcoes';
 
 class userService extends UserModel{
     public validatePassword(password: string): Promise<Boolean> {
-        console.log(password, this.password);
         return bcrypt.compare(password, this.password!)
     }
     public async createUser(name: string, email: string, password: string, cpf: string): Promise<UserModel> {
