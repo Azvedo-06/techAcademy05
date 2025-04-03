@@ -8,7 +8,7 @@ describe('registrar usuário validação', ()  => {
         const token = await request(app)
             .post('/login')
             .send({
-                email: 'adm@gmail.com',
+                email: 'test@gmail.com',
                 password: '123456'
             })
         
@@ -20,7 +20,7 @@ describe('registrar usuário validação', ()  => {
             .send({
                 name: 'test',
 	            email: 'test@gmail.com',
-	            password: '654321',
+	            password: '123456',
 	            cpf: '114.364.369-07'
             })
         expect(response.status).toBe(201)
@@ -91,7 +91,7 @@ describe('Validação de CRUDs de User', () => {
         const token = await request(app)
         .post('/login')
         .send({
-            email: 'adm@gmail.com',
+            email: 'test@gmail.com',
             password: '123456'
         })
 
