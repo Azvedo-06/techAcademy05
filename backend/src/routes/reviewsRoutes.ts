@@ -9,6 +9,6 @@ router.post('/reviews', authMiddleware, reviewsController.createReviewsControlle
 router.get('/reviews/:id', authMiddleware, reviewsController.findReviewsByIdController);
 router.get('/reviews', authMiddleware, reviewsController.findAllReviewsController);
 router.delete('/reviews/:id', authMiddleware, reviewsController.deleteReviewsController);
-router.patch('/reviews/:id', authMiddleware, reviewsController.updateReviewsController);
+router.put('/reviews/:id', authMiddleware, reviewsController.updateReviewsController);
 
 export default router;

@@ -77,8 +77,8 @@ describe('Validação de CRUDs de User', () => {
         expect(response.status).toBe(401)
     })
 
-    test('PATCH, /users/1 sem token deve retornar um erro', async () => {
-        const response = await request(app).patch('/users/1')
+    test('PUT, /users/1 sem token deve retornar um erro', async () => {
+        const response = await request(app).put('/users/1')
         expect(response.status).toBe(401)
     });
     

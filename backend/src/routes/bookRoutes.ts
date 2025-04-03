@@ -8,7 +8,7 @@ const bookController = new BookController();
 router.get("/books", authMiddleware, bookController.findAllBooksController);
 router.delete("/books/:id", authMiddleware, bookController.deleteBookController);
 router.post("/books", authMiddleware, bookController.createBookController);
-router.patch("/books/:id", authMiddleware, bookController.updateBookController);
+router.put("/books/:id", authMiddleware, bookController.updateBookController);
 router.get("/books/:id", authMiddleware, bookController.findBookByIdController);
 
 export default router;

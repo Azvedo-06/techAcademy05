@@ -8,7 +8,7 @@ const router = express.Router();
 router.post('/categorys', authMiddleware, categoryController.createCategoryController); 
 router.get('/categorys', authMiddleware,categoryController.findAllCategoryController)
 router.delete('/categorys/:id', authMiddleware, categoryController.deleteCategotyController);
-router.patch('/categorys/:id', authMiddleware, categoryController.updateCategoryController);
+router.put('/categorys/:id', authMiddleware, categoryController.updateCategoryController);
 router.get('/categorys/:id', authMiddleware , categoryController.findCategoryByIdController);
 
 export default router;
