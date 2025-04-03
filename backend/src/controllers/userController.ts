@@ -21,7 +21,7 @@ class userController {
             const userDelete = await userService.deleteUser(Number(req.params.id)); 
             return res.status(200).json(userDelete);
         } catch (error) {
-            return res.status(404).json({error: "erro ao tentar deletar usuário: " + error});
+            return res.status(400).json({error: "erro ao tentar deletar usuário: " + error});
         }
     };
 
