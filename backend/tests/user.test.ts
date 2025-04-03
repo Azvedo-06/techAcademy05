@@ -79,11 +79,26 @@ describe('Validação de CRUDs de User', () => {
 
     test('PATCH, /users/1 sem token deve retornar um erro', async () => {
         const response = await request(app).patch('/users/1')
-        expect(response.status).toBe(401); // Espera-se que a resposta seja 401
+        expect(response.status).toBe(401)
     });
     
     test('POST, /users criar usuários sem token deve retornar erro', async () => {
         const response = await request(app).post('/users')
         expect(response.status).toBe(401)
+    })
+
+    test('GET, /users com token deve ser valido', async () => {
+        const token = await request(app)
+        .post('/login')
+        .send({
+            email: 'adm@gmail.com',
+            password: '123456'
+        })
+
+        const response = await request(app)
+        .get('/users')
+        .set({authorization: token.body.token})
+
+        expect(response.status).toBe(200)
     })
 })
