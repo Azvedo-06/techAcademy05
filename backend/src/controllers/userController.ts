@@ -12,7 +12,7 @@ class userController {
 
             return res.status(201).json(user);
         } catch (error) {
-            return res.status(400).json({error: "erro ao criar usuário: " + error});
+            return res.status(500).json({error: "erro ao criar usuário: " + error});
         }
     };
     
@@ -21,7 +21,7 @@ class userController {
             const userDelete = await userService.deleteUser(Number(req.params.id)); 
             return res.status(200).json(userDelete);
         } catch (error) {
-            return res.status(400).json({error: "erro ao tentar deletar usuário: " + error});
+            return res.status(500).json({error: "erro ao tentar deletar usuário: " + error});
         }
     };
 
@@ -30,7 +30,7 @@ class userController {
             const users = await userService.findAllUser();
             return res.status(200).json(users);
         } catch (error) {
-            return res.status(400).json({error: "erro ao buscar usuários. Tente novamente: " + error});
+            return res.status(500).json({error: "erro ao buscar usuários. Tente novamente: " + error});
         }
     };
 
@@ -40,7 +40,7 @@ class userController {
 
             return res.status(200).json(user);
         } catch (error) {
-            return res.status(400).json({error: "erro ao tentar encontrar Usuário: " + error});
+            return res.status(500).json({error: "erro ao tentar encontrar Usuário: " + error});
         }
     }
 
@@ -57,9 +57,9 @@ class userController {
                 cpf
             );
 
-            return res.status(201).json(update);
+            return res.status(200).json(update);
         } catch (error) {
-            return res.status(400).json({error: "erro ao tentar atualizar usuário: " + error});
+            return res.status(500).json({error: "erro ao tentar atualizar usuário: " + error});
         }
     }
 };

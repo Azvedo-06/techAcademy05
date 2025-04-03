@@ -13,13 +13,12 @@ class categoryService extends CategoryModel{
         }
     }
 
-    public async deleteCategory(id:number): Promise<String> {
+    public async deleteCategory(id:number): Promise<void> {
         try {
             const categoryDelete = await validateCategoryExist(id);
 
             await categoryDelete.destroy();
 
-            return "Categoria Deletada";            
         } catch (error) {
             throw (`${error}`);
         }
@@ -45,15 +44,13 @@ class categoryService extends CategoryModel{
         }
     }
 
-    public async updateCategory(id:number, name: string): Promise<CategoryModel> {
+    public async updateCategory(id:number, name: string): Promise<void> {
         try {
             const category = await validateCategoryExist(id);
             validateNameCategory(name);
     
             category.name = name;
-         
             await category.save();
-            return category;
         } catch(error) {
             throw (`${error}`);
         }

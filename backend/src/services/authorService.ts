@@ -20,12 +20,11 @@ class authorService extends AuthorModel {
         }
     }
 
-    public async deleteAuthor(id:number): Promise<string> {
+    public async deleteAuthor(id:number): Promise<void> {
         try {
             const AuthorDelete = await validateAuthorExist(id);
 
             await AuthorDelete.destroy();
-            return "Autor deletado";
         } catch (error) {
             throw (`${error}`);
         }
@@ -51,7 +50,7 @@ class authorService extends AuthorModel {
         }
     }
 
-    public async updateAuthor(id: number, name: string, bio: string, birth: Date): Promise<AuthorModel> {
+    public async updateAuthor(id: number, name: string, bio: string, birth: Date): Promise<void> {
         try {
             const author = await validateAuthorExist(id);
             validateNameUser(name);
@@ -60,10 +59,9 @@ class authorService extends AuthorModel {
           
             author.name = name
             author.bio = bio
-            author.birth = birth
+            author.birth = authorBirth
 
             await author.save();
-            return author;
         } catch (error) {
             throw (`${error}`);
         }

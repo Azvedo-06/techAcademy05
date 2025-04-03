@@ -24,13 +24,11 @@ class userService extends UserModel{
         }
     };
 
-    public async deleteUser(id:number): Promise<string> {
+    public async deleteUser(id:number): Promise<void> {
         try {
             const userDelete = await validateUserExist(id)
 
             await userDelete.destroy();
-
-            return "Usuário deletado";
         } catch (error) {
             throw (`${error}`);
         }
@@ -56,7 +54,7 @@ class userService extends UserModel{
         }
     }
 
-    public async updateUser(id:number, name: string, email: string, password: string, cpf: string): Promise<UserModel> {
+    public async updateUser(id:number, name: string, email: string, password: string, cpf: string): Promise<void> {
         try {
             const user = await validateUserExist(id);
             const hashedPassword = await validateUserHash(password);
@@ -68,9 +66,7 @@ class userService extends UserModel{
 
 
             user.name = name, user.email = email, user.password = hashedPassword, user.cpf = cpf;
- 
             await user.save();
-            return user;
         } catch (error) {
             throw (`${error}`);
         }

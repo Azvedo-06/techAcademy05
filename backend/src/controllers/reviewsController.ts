@@ -9,9 +9,9 @@ class reviewsController {
             const {comments, nota, userId, bookId} = req.body;
             const reviews = await reviewsService.createReviews(comments, nota, userId, bookId);
 
-            return res.status(200).json(reviews);
+            return res.status(201).json(reviews);
         } catch (error) {
-            return res.status(400).json({error: "erro ao tentar criar comentário: " + error})
+            return res.status(500).json({error: "erro ao tentar criar comentário: " + error})
         }
     }
 
@@ -19,9 +19,9 @@ class reviewsController {
         try {
             const reviews = await reviewsService.findAllReviews();
 
-            return res.status(201).json(reviews)
+            return res.status(200).json(reviews)
         } catch (error) {
-            return res.status(400).json({error: "erro ao tentar buscar comentários: " + error})
+            return res.status(500).json({error: "erro ao tentar buscar comentários: " + error})
         }
     }
 
@@ -29,9 +29,9 @@ class reviewsController {
         try {
             const reviews = await reviewsService.findReviewsById(Number(req.params.id));
 
-            return res.status(201).json(reviews)
+            return res.status(200).json(reviews)
         } catch (error) {
-            return res.status(400).json({error: "erro tente novamente: " + error});
+            return res.status(500).json({error: "erro tente novamente: " + error});
         }
     }
 
@@ -39,9 +39,9 @@ class reviewsController {
         try {
             const reviews = await reviewsService.deleteReviews(Number(req.params.id));
 
-            return res.status(201).json(reviews)
+            return res.status(204).json(reviews)
         } catch (error) {
-            return res.status(400).json({error: "erro ao tentar deletar comentário: " + error});
+            return res.status(500).json({error: "erro ao tentar deletar comentário: " + error});
         }
     }
 
@@ -58,9 +58,9 @@ class reviewsController {
                 bookId
             )
 
-            return res.status(201).json(update)
+            return res.status(204).json(update)
         } catch (error) {
-            return res.status(400).json({error: "erro ao tentar atualizar comentário: " + error});
+            return res.status(500).json({error: "erro ao tentar atualizar comentário: " + error});
         }
     }
 };

@@ -8,7 +8,7 @@ class bookController {
             const books = await bookService.findAllBooks();
             return res.status(200).json(books)
         } catch (error) {
-            return res.status(400).json({error: "erro ao buscar livros. Tente novamente: " + error})
+            return res.status(500).json({error: "erro ao buscar livros. Tente novamente: " + error})
         }
     }
 
@@ -19,7 +19,7 @@ class bookController {
 
             return res.status(201).json(book); 
         } catch (error) {
-            return res.status(400).json({error: "erro ao criar o livro: " + error});
+            return res.status(500).json({error: "erro ao criar o livro: " + error});
         }
     }
 
@@ -27,9 +27,9 @@ class bookController {
         try {
             const bookDelete = await bookService.deleteBook(Number(req.params.id));
 
-            return res.status(200).json(bookDelete);
+            return res.status(204).json(bookDelete);
         } catch (error) {
-            return res.status(400).json({error: "erro ao tentar deletar livro: " + error});
+            return res.status(500).json({error: "erro ao tentar deletar livro: " + error});
         }
     }
 
@@ -39,7 +39,7 @@ class bookController {
 
             return res.status(200).json(book)
         } catch (error) {
-            return res.status(400).json({error: "erro tente novamente: " + error});
+            return res.status(500).json({error: "erro tente novamente: " + error});
         }
     }
 
@@ -57,9 +57,9 @@ class bookController {
                 categoryId
             );
 
-            return res.status(201).json(update);
+            return res.status(204).json(update);
         } catch (error) {
-            return res.status(400).json({error: "erro ao tentar atualizar livro: " + error});
+            return res.status(500).json({error: "erro ao tentar atualizar livro: " + error});
         }
     }
 };

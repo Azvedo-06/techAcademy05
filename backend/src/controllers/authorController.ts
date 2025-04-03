@@ -10,7 +10,7 @@ class authorController {
 
             return res.status(201).json(author);
         } catch (error) {
-            return res.status(400).json({error: "erro ao criar autor: " + error});
+            return res.status(500).json({error: "erro ao criar autor: " + error});
         }    
     }
 
@@ -18,9 +18,9 @@ class authorController {
         try {
             const authorDelete = await authorService.deleteAuthor(Number(req.params.id)); 
 
-            return res.status(200).json(authorDelete);
+            return res.status(204).json(authorDelete);
         } catch (error) {
-            return res.status(400).json({error: "erro ao tentar deletar autor: " + error});
+            return res.status(500).json({error: "erro ao tentar deletar autor: " + error});
         }
     };
 
@@ -30,7 +30,7 @@ class authorController {
 
             return res.status(200).json(Author);
         } catch (error) {
-            return res.status(400).json({error: "erro ao buscar Autores: " + error});
+            return res.status(500).json({error: "erro ao buscar Autores: " + error});
         }
     };
 
@@ -56,9 +56,9 @@ class authorController {
                 birth
             );
 
-            return res.status(201).json(update);
+            return res.status(204).json(update);
         } catch (error) {
-            return res.status(400).json({error: "erro ao tentar atualizar autor: " + error});
+            return res.status(500).json({error: "erro ao tentar atualizar autor: " + error});
         }
     }
 };

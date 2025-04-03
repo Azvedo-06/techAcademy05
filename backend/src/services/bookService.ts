@@ -41,19 +41,18 @@ class bookService extends BookModel {
         }
     }
 
-    public async deleteBook(id:number): Promise<string> {
+    public async deleteBook(id:number): Promise<void> {
         try {
             const BookDelete = await validateBookExist(id);
             
             await BookDelete.destroy();
-            return "Livro deletado";
         } catch (error) {
             throw (`${error}`);
         }
 
     }
 
-    public async updateBook(id:number, title:string, description:string, publication_date:Date, authorId:number, categoryId:number): Promise<BookModel> {
+    public async updateBook(id:number, title:string, description:string, publication_date:Date, authorId:number, categoryId:number): Promise<void> {
         try {
             const book = await validateBookExist(id);
             validateBookTitle(title);
@@ -68,7 +67,6 @@ class bookService extends BookModel {
             book.categoryId = categoryId;
 
             await book.save();
-            return book;
         } catch (error) {
             throw (`${error}`);
         }

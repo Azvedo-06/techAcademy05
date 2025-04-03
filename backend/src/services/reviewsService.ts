@@ -43,19 +43,18 @@ class reviewsService extends ReviewsModel {
     }
   }
 
-  public async deleteReviews(id: number): Promise<string> {
+  public async deleteReviews(id: number): Promise<void> {
     try {
       const reviewsDelete = await validateReviewsExist(id);
 
       reviewsDelete.destroy();
 
-      return "Reviews deletado";
     } catch (error) {
       throw `${error}`;
     }
   }
 
-  public async updateReviews(id: number,comments: string,nota: number,userId: number,bookId: number): Promise<ReviewsModel> {
+  public async updateReviews(id: number,comments: string,nota: number,userId: number,bookId: number): Promise<void> {
     try {
       const reviews = await validateReviewsExist(id);
       validateAuthorComments(comments);
@@ -67,7 +66,6 @@ class reviewsService extends ReviewsModel {
       reviews.BookId = bookId;
       reviews.save();
 
-      return reviews;
     } catch (error) {
       throw `${error}`;
     }
