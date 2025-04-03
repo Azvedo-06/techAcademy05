@@ -18,9 +18,9 @@ describe('registrar usuário validação', ()  => {
             .post('/users')
             .set({authorization: token.body.token})
             .send({
-                name: 'test',
-	            email: 'test@gmail.com',
-	            password: '123456',
+                name: 'adm2',
+	            email: 'test2@gmail.com',
+	            password: '654321',
 	            cpf: '114.364.369-07'
             })
         expect(response.status).toBe(201)
