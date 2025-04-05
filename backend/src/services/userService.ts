@@ -1,7 +1,7 @@
 import bcrypt from "bcrypt";
 import UserModel from '../models/UserModel';
 import 
-{ validateNameUser, validateUserEmail, validateUserCpf, validateUserPassword, validateUserHash, validateUserExist }
+{ validateName, validateUserEmail, validateUserCpf, validateUserPassword, validateUserHash, validateUserExist }
 from '../utils/funcoes';
 
 class userService extends UserModel{
@@ -10,7 +10,7 @@ class userService extends UserModel{
     }
     public async createUser(name: string, email: string, password: string, cpf: string): Promise<UserModel> {
         try {
-            validateNameUser(name);
+            validateName(name);
             validateUserEmail(email);
             validateUserPassword(password);
             validateUserCpf(cpf);
@@ -59,7 +59,7 @@ class userService extends UserModel{
             const user = await validateUserExist(id);
             const hashedPassword = await validateUserHash(password);
 
-            validateNameUser(name);
+            validateName(name);
             validateUserEmail(email);
             validateUserCpf(cpf);
             validateUserPassword(password);

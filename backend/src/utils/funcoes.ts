@@ -19,7 +19,7 @@ export async function mountPagenation(filtes:any) {
 }
 */
 
-export function validateNameUser(name:string): void {
+export function validateName(name:string): void {
     if (!name || name.trim() === "") {
         throw ("Nome é obrigatório");
     }
@@ -37,7 +37,7 @@ export function validateBookTitle(title:string): void {
     }
 }
 
-export function validateAuthorComments(comments:string): void {
+export function validateReviewsComments(comments:string): void {
     if (!comments || comments.trim() === "" ) {
         throw ("Comentário é obrigatório");
     }

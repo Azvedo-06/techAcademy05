@@ -1,13 +1,13 @@
 import ReviewsModel from "../models/ReviewsModel";
 import {
-  validateAuthorComments,
+  validateReviewsComments,
   validateReviewsNota,
   validateReviewsExist,
 } from "../utils/funcoes";
 class reviewsService extends ReviewsModel {
   public async createReviews(comments: string,nota: number,userId: number,bookId: number): Promise<ReviewsModel> {
     try {
-      validateAuthorComments(comments);
+      validateReviewsComments(comments);
       validateReviewsNota(nota);
 
       const reviews = await ReviewsModel.create({
@@ -57,7 +57,7 @@ class reviewsService extends ReviewsModel {
   public async updateReviews(id: number,comments: string,nota: number,userId: number,bookId: number): Promise<void> {
     try {
       const reviews = await validateReviewsExist(id);
-      validateAuthorComments(comments);
+      validateReviewsComments(comments);
       validateReviewsNota(nota);
 
       reviews.comments = comments;
