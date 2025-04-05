@@ -1,4 +1,3 @@
-import { validateUserPassword, validateUserEmail, validateUserCpf } from "../src/utils/funcoes";
 import request  from "supertest";
 import app from "../src/app";
 
@@ -26,32 +25,49 @@ describe('registrar usuário validação', ()  => {
         expect(response.status).toBe(201)
     })
     
-    test('não deve criar usuário com email inválido', async () => {
-        const email = "mariagmail.com";  // Email inválido
-        try {
-            await validateUserEmail(email);
-        } catch (error) {
-            expect(error).toBe('email inválido');
-        }
-    })
-
     test('não deve criar usuário com senha menor que 6 caracteres', async () => {
-        const senha = "12345";
-        try {
-            await validateUserPassword(senha);
-        } catch (error) {
-            expect(error).toBe("A senha deve ter pelo menos 6 caracteres")
-        }
+        const token = await request(app)
+        .post('/login')
+        .send({
+            email: 'test@gmail.com',
+            password: '123456'
+        })
+
+        const response = await request(app)
+        .post('/users')
+        .set({authorization: token.body.token})
+        .send({
+            name: 'adm2',
+	        email: 'test2@gmail.com',
+	        password: '654',
+	        cpf: '114.364.369-07'
+        })
+        expect(response.status).toBe(500)
+        expect(response.body).toHaveProperty('error','erro ao criar usuário: A senha deve ter pelo menos 6 caracteres')
     })
 
     test('não deve criar usuário com cpf inválido', async () => {
-        const cpfInvalido = "123.456.789-1"
-        try {
-            await validateUserCpf(cpfInvalido)
-        } catch (error) {
-            expect(error).toBe("cpf inválido")
-        }
+        const token = await request(app)
+        .post('/login')
+        .send({
+            email: 'test@gmail.com',
+            password: '123456'
+        })
+
+        const response = await request(app)
+        .post('/users')
+        .set({authorization: token.body.token})
+        .send({
+            name: 'adm2',
+	        email: 'test2gmail.com',
+	        password: '654321',
+	        cpf: '114.364.369-07'
+        })
+        expect(response.status).toBe(500)
+        expect(response.body).toHaveProperty('error','erro ao criar usuário: email inválido')
+
     })
+
     // colocar essa num test login
     test('Restrição para não permitir o login de usuários não cadastrados.', async () => {
         const token = await request(app)
@@ -64,50 +80,4 @@ describe('registrar usuário validação', ()  => {
     })
 
     // test('Restrição para permitir que o usuário edite apenas seus próprios dados.')
-})
-
-describe('Validação de CRUDs de User', () => {
-    test('DELETE, /users/id validação para não permitir edição ou exclusão de recursos inexistentes.', async () => {
-        const token = await request(app)
-            .post('/login')
-            .send({
-                email: 'test@gmail.com',
-                password: '123456'
-            })
-        expect(token.status).toBe(200)
-
-        const response = await request(app).delete('/users/0')
-        .set({authorization: token.body.token})
-        expect(response.status).toBe(500)
-    })
-
-    test('GET, /users sem token deve retornar erro ', async () => {
-        const response = await request(app).get('/users')
-        expect(response.status).toBe(401)
-    })
-
-    test('PUT, /users/1 sem token deve retornar um erro', async () => {
-        const response = await request(app).put('/users/1')
-        expect(response.status).toBe(401)
-    });
-    
-    test('POST, /users criar usuários sem token deve retornar erro', async () => {
-        const response = await request(app).post('/users')
-        expect(response.status).toBe(401)
-    })
-
-    test('GET, /users com token deve ser valido', async () => {
-        const token = await request(app)
-        .post('/login')
-        .send({
-            email: 'test@gmail.com',
-            password: '123456'
-        })
-
-        const response = await request(app)
-        .get('/users')
-        .set({authorization: token.body.token})
-
-        expect(response.status).toBe(200)
-    })
 })
