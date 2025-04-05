@@ -1,11 +1,13 @@
 import CategoryModel from "../models/CategoryModel";
-import { validateCategoryExist, validateNameCategory } from "../utils/funcoes";
+import { validateCategoryExist, validateNamAll } from "../utils/funcoes";
 class categoryService extends CategoryModel{
 
     public async createCategory(name:string): Promise<CategoryModel> {
         try {
             const category = await CategoryModel.create({name});
-            validateNameCategory(name);
+            if (!validateNamAll(name)) {
+                throw 'nome da categoria é obrigatório'
+            }
 
             return category;
         } catch(error) {
@@ -47,7 +49,9 @@ class categoryService extends CategoryModel{
     public async updateCategory(id:number, name: string): Promise<void> {
         try {
             const category = await validateCategoryExist(id);
-            validateNameCategory(name);
+            if (!validateNamAll(name)) {
+                throw 'nome da categoria é obrigatório'
+            }
     
             category.name = name;
             await category.save();

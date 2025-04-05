@@ -1,5 +1,5 @@
 import BookModel from "../models/BookModel";
-import {validateBookExist, validateBookTitle, validateBookDate, validateBookDescription} from "../utils/funcoes";
+import {validateBookExist, validateNamAll, validateBookDate, validateBookDescription} from "../utils/funcoes";
 class bookService extends BookModel {
     public async findAllBooks(): Promise<BookModel[]> {
         try {
@@ -23,7 +23,9 @@ class bookService extends BookModel {
 
     public async createBook(title:string, description:string, publication_date:Date, authorId:number, categoryId:number): Promise<BookModel> {
         try {
-            validateBookTitle(title)
+            if (!validateNamAll(title)) {
+                throw 'Titulo do livro é obrigatório'
+            }
             validateBookDescription(description);
             const dateBook = validateBookDate(publication_date);
            
@@ -55,7 +57,9 @@ class bookService extends BookModel {
     public async updateBook(id:number, title:string, description:string, publication_date:Date, authorId:number, categoryId:number): Promise<void> {
         try {
             const book = await validateBookExist(id);
-            validateBookTitle(title);
+            if (!validateNamAll(title)) {
+                throw 'Titulo do livro é obrigatório'
+            }
             validateBookDescription(description);
             const publicationDate = validateBookDate(publication_date);
             

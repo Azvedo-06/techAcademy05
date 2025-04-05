@@ -1,10 +1,12 @@
 import AuthorModel from "../models/AuthorModel";
-import { validateName, validateAuthorBio, validateAuthorExist, validateAuthorDate} from "../utils/funcoes";
+import { validateNamAll, validateAuthorBio, validateAuthorExist, validateAuthorDate} from "../utils/funcoes";
 
 class authorService extends AuthorModel {
     public async createAuthor(name: string, bio: string, birth: Date): Promise<AuthorModel> {
         try {
-            validateName(name);
+            if (!validateNamAll(name)) {
+                throw 'nome do autor é obrigatório'
+            }
             validateAuthorBio(bio);
             const birthDate = validateAuthorDate(birth);
 
@@ -53,7 +55,9 @@ class authorService extends AuthorModel {
     public async updateAuthor(id: number, name: string, bio: string, birth: Date): Promise<void> {
         try {
             const author = await validateAuthorExist(id);
-            validateName(name);
+            if (!validateNamAll(name)) {
+                throw 'nome é obrigatório'
+            }
             validateAuthorBio(bio);
             const authorBirth = validateAuthorDate(birth);
           

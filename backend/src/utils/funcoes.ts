@@ -18,30 +18,36 @@ export async function mountPagenation(filtes:any) {
     }: {}
 }
 */
-
-export function validateName(name:string): void {
-    if (!name || name.trim() === "") {
-        throw ("Nome é obrigatório");
+export function validateNamAll(string:string): boolean {
+    if (!string || string.trim() === "") {
+        return false;
     }
+    return true;
 }
 
-export function validateNameCategory(name: string): void {
-    if (!name || name.trim() === "") {
-        throw ("Nome da categoria obrigatório");
-    }
-}
+// export function validateName(name:string): void {
+//     if (!name || name.trim() === "") {
+//         throw ("Nome é obrigatório");
+//     }
+// }
 
-export function validateBookTitle(title:string): void {
-    if(!title || title.trim() === "") {
-        throw ("Titulo é obrigatório");
-    }
-}
+// export function validateNameCategory(name: string): void {
+//     if (!name || name.trim() === "") {
+//         throw ("Nome da categoria obrigatório");
+//     }
+// }
 
-export function validateReviewsComments(comments:string): void {
-    if (!comments || comments.trim() === "" ) {
-        throw ("Comentário é obrigatório");
-    }
-}
+// export function validateBookTitle(title:string): void {
+//     if(!title || title.trim() === "") {
+//         throw ("Titulo é obrigatório");
+//     }
+// }
+
+// export function validateReviewsComments(comments:string): void {
+//     if (!comments || comments.trim() === "" ) {
+//         throw ("Comentário é obrigatório");
+//     }
+// }
 
 export function validateUserEmail(email:string): void {
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -159,7 +165,7 @@ export async function validateAuthorExist(id:number): Promise<AuthorModel> {
 
 export function validateAuthorDate(birth:Date): Date {
     const birthAuthor = new Date(birth);
-    if (isNaN(birth.getTime())) {
+    if (isNaN(birthAuthor.getTime())) {
         throw ("Data de publicação inválida");
     }
     return birthAuthor;

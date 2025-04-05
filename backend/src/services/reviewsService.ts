@@ -1,13 +1,15 @@
 import ReviewsModel from "../models/ReviewsModel";
 import {
-  validateReviewsComments,
+  validateNamAll,
   validateReviewsNota,
   validateReviewsExist,
 } from "../utils/funcoes";
 class reviewsService extends ReviewsModel {
   public async createReviews(comments: string,nota: number,userId: number,bookId: number): Promise<ReviewsModel> {
     try {
-      validateReviewsComments(comments);
+      if (!validateNamAll(comments)) {
+        throw 'Comentarios é obrigatório'
+      }
       validateReviewsNota(nota);
 
       const reviews = await ReviewsModel.create({
@@ -57,7 +59,9 @@ class reviewsService extends ReviewsModel {
   public async updateReviews(id: number,comments: string,nota: number,userId: number,bookId: number): Promise<void> {
     try {
       const reviews = await validateReviewsExist(id);
-      validateReviewsComments(comments);
+      if (!validateNamAll(comments)) {
+        throw 'Comentarios é obrigatório'
+      }
       validateReviewsNota(nota);
 
       reviews.comments = comments;
