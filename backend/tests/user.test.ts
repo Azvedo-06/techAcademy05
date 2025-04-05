@@ -52,7 +52,7 @@ describe('registrar usuário validação', ()  => {
             expect(error).toBe("cpf inválido")
         }
     })
-
+    // colocar essa num test login
     test('Restrição para não permitir o login de usuários não cadastrados.', async () => {
         const token = await request(app)
             .post('/login')
@@ -68,8 +68,17 @@ describe('registrar usuário validação', ()  => {
 
 describe('Validação de CRUDs de User', () => {
     test('DELETE, /users/id validação para não permitir edição ou exclusão de recursos inexistentes.', async () => {
+        const token = await request(app)
+            .post('/login')
+            .send({
+                email: 'test@gmail.com',
+                password: '123456'
+            })
+        expect(token.status).toBe(200)
+
         const response = await request(app).delete('/users/0')
-        expect(response.status).toBe(401)
+        .set({authorization: token.body.token})
+        expect(response.status).toBe(500)
     })
 
     test('GET, /users sem token deve retornar erro ', async () => {
