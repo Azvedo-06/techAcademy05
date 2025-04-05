@@ -64,7 +64,7 @@ describe('registrar usuário validação', ()  => {
 	        cpf: '114.364.369-08'
         })
         expect(response.status).toBe(500)
-        expect(response.body).toHaveProperty('error','erro ao criar usuário: cpf inválido')
+        expect(response.body).toHaveProperty('error','erro ao criar usuário: Error: CPF inválido')
     })
 
     test('não deve criar usuário com email inválido', async () => {
@@ -100,5 +100,21 @@ describe('registrar usuário validação', ()  => {
         expect(token.status).toBe(404)
     })
 
+    test('Restrição para não permitir deletar dados inexistente.', async () => {
+        const token = await request(app)
+            .post('/login')
+            .send({
+                email: 'test@gmail.com',
+                password: '123456'
+            })
+        expect(token.status).toBe(200)
+
+        const response = await request(app)
+        .delete('/users/0')
+        .set({authorization: token.body.token})
+
+        expect(response.status).toBe(500)
+        expect(response.body).toHaveProperty("error","erro ao tentar deletar usuário: Usuário não encontrado")
+    })
     // test('Restrição para permitir que o usuário edite apenas seus próprios dados.')
 })
