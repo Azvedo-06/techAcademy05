@@ -46,7 +46,28 @@ describe('registrar usuário validação', ()  => {
         expect(response.body).toHaveProperty('error','erro ao criar usuário: A senha deve ter pelo menos 6 caracteres')
     })
 
-    test('não deve criar usuário com cpf inválido', async () => {
+    test('não deve criar usuário com cpf errado', async () => {
+        const token = await request(app)
+        .post('/login')
+        .send({
+            email: 'test@gmail.com',
+            password: '123456'
+        })
+
+        const response = await request(app)
+        .post('/users')
+        .set({authorization: token.body.token})
+        .send({
+            name: 'adm2',
+	        email: 'test2@gmail.com',
+	        password: '654321',
+	        cpf: '114.364.369-08'
+        })
+        expect(response.status).toBe(500)
+        expect(response.body).toHaveProperty('error','erro ao criar usuário: cpf inválido')
+    })
+
+    test('não deve criar usuário com email inválido', async () => {
         const token = await request(app)
         .post('/login')
         .send({
