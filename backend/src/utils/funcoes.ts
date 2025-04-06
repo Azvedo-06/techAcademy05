@@ -88,7 +88,20 @@ export function validateReviewsNota(nota:number): void {
 }
 
 export async function validateReviewsExist(id:number): Promise<ReviewsModel>  {
-    const reviews = await ReviewsModel.findByPk(id);
+    const reviews = await ReviewsModel.findByPk(id, {
+        include: [
+            {
+                model: UserModel,
+                as: 'user',
+                attributes: ['name']
+            },
+            {
+                model:  BookModel,
+                as: 'book',
+                attributes: ['title']
+            }
+        ]
+    });
     if (!reviews) {
         throw ("Comentario não encontrado");
     }
@@ -104,7 +117,20 @@ export async function validateCategoryExist(id:number): Promise<CategoryModel> {
 }
 
 export async function validateBookExist(id:number): Promise<BookModel> {
-    const book = await BookModel.findByPk(id);
+    const book = await BookModel.findByPk(id, {
+        include: [
+            {
+                model: CategoryModel,
+                as: 'category',
+                attributes: ['name']
+            },
+            {
+                model: AuthorModel,
+                as: 'author',
+                attributes: ['name']
+            }  
+        ],
+    });
     if(!book) {
         throw ("Livro não encontrado");
     }

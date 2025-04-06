@@ -34,18 +34,10 @@ BookModel.init(
         authorId: {
             type: DataTypes.INTEGER,
             allowNull: true,
-            references: {
-                model: "authors",
-                key: 'id'
-            }
         },
         categoryId: {
             type: DataTypes.INTEGER,
             allowNull: true,
-            references: {
-                model: "categorys",
-                key: 'id'
-            }
         },
     },
     {

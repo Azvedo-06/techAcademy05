@@ -29,18 +29,10 @@ ReviewsModel.init(
     userId: {
       type: DataTypes.INTEGER,
       allowNull: true,
-      references: {
-        model: "users", // Nome da tabela referenciada
-        key: "id",
-      },
     },
     BookId: {
       type: DataTypes.INTEGER,
       allowNull: true,
-      references: {
-        model: "books", // Nome da tabela referenciada
-        key: "id",
-      },
     },
   },
   {

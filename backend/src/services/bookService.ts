@@ -1,10 +1,24 @@
+import AuthorModel from "../models/AuthorModel";
 import BookModel from "../models/BookModel";
+import CategoryModel from "../models/CategoryModel";
 import {validateBookExist, validateNamAll, validateBookDate, validateBookDescription} from "../utils/funcoes";
 class bookService extends BookModel {
     public async findAllBooks(): Promise<BookModel[]> {
         try {
-            const books = await BookModel.findAll();
-
+            const books = await BookModel.findAll({
+                include: [
+                    {
+                        model: CategoryModel,
+                        as: 'category',
+                        attributes: ['name']
+                    },
+                    {
+                        model: AuthorModel,
+                        as: 'author',
+                        attributes: ['name']
+                    }
+                ]
+            });
             return books;
         } catch (error) {
             throw (`${error}`)

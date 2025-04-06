@@ -1,4 +1,6 @@
+import BookModel from "../models/BookModel";
 import ReviewsModel from "../models/ReviewsModel";
+import UserModel from "../models/UserModel";
 import {
   validateNamAll,
   validateReviewsNota,
@@ -27,7 +29,20 @@ class reviewsService extends ReviewsModel {
 
   public async findAllReviews(): Promise<ReviewsModel[]> {
     try {
-      const reviews = await ReviewsModel.findAll();
+      const reviews = await ReviewsModel.findAll({
+        include: [
+          {
+            model: UserModel,
+            as: 'user',
+            attributes: ['name']
+          },
+          {
+            model:  BookModel,
+            as: 'book',
+            attributes: ['title']
+          }
+        ]
+      });
 
       return reviews;
     } catch (error) {
