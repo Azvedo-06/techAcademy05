@@ -1,6 +1,5 @@
 import request from 'supertest';
 import app from '../src/app';
-import { validateAuthorBio, validateAuthorDate, validateNamAll } from '../src/utils/funcoes';
 
 describe('Registrar Author validação', () => {
     test('deve criar um author valido com token', async () => {

@@ -1,7 +1,6 @@
 import request  from "supertest";
 import app from "../src/app";
 
-
 describe('registrar usuário validação', ()  => {
     test('deve criar um user valido, com token', async () => {
         const token = await request(app)

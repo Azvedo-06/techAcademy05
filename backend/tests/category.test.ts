@@ -1,6 +1,5 @@
 import request from "supertest";
 import app from "../src/app";
-import { validateNamAll } from "../src/utils/funcoes";
 
 describe('Registrar Category validação', () => {
     test('deve criar uma categoria validada, com token', async () => {

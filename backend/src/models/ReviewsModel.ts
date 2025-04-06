@@ -7,8 +7,8 @@ class ReviewsModel extends Model {
   id: number | undefined;
   comments: string | undefined;
   nota: number | undefined;
-  userId: number | undefined; // FK Referência à tabela Autores
-  BookId: number | undefined; // FK Referência à tabela Categorias
+  userId: number | undefined; 
+  BookId: number | undefined;
 }
 
 ReviewsModel.init(
