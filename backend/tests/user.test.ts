@@ -19,7 +19,7 @@ describe('registrar usuário validação', ()  => {
             .send({
                 name: 'adm2',
 	            email: 'test2@gmail.com',
-	            password: '654321',
+	            password: '123456',
 	            cpf: '114.364.369-07'
             })
         expect(response.status).toBe(201)
@@ -89,7 +89,6 @@ describe('registrar usuário validação', ()  => {
 
     })
 
-    // colocar essa num test login
     test('Restrição para não permitir o login de usuários não cadastrados.', async () => {
         const token = await request(app)
             .post('/login')
