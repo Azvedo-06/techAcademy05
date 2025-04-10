@@ -2,10 +2,10 @@ import { DataTypes, Model } from "sequelize";
 import sequelize from "../config/database";
 
 class AuthorModel extends Model {
-  id: number | undefined;
-  name: string | undefined;
-  bio: string | undefined;
-  birth: Date | undefined;
+  id!: number;
+  name!: string;
+  birth!: Date;
+  bio!: string;
 }
 
 AuthorModel.init(
@@ -17,14 +17,14 @@ AuthorModel.init(
     },
     name: {
       type: DataTypes.STRING,
-      allowNull: false, // permitido nulo ? false
-    },
-    bio: {
-      type: DataTypes.TEXT,
       allowNull: false,
     },
     birth: {
       type: DataTypes.DATE,
+      allowNull: false,
+    },
+    bio: {
+      type: DataTypes.TEXT,
       allowNull: false,
     },
   },

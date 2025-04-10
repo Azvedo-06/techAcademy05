@@ -5,10 +5,30 @@ import authMiddleware from "../middleware/authMiddleware";
 const reviewsController = new ReviewsController();
 const router = express.Router();
 
-router.post('/reviews', authMiddleware, reviewsController.createReviewsController);
-router.get('/reviews/:id', authMiddleware, reviewsController.findReviewsByIdController);
-router.get('/reviews', authMiddleware, reviewsController.findAllReviewsController);
-router.delete('/reviews/:id', authMiddleware, reviewsController.deleteReviewsController);
-router.put('/reviews/:id', authMiddleware, reviewsController.updateReviewsController);
+router.post(
+  "/reviews",
+  authMiddleware,
+  reviewsController.createReviewsController.bind(reviewsController)
+);
+router.get(
+  "/reviews/:id",
+  authMiddleware,
+  reviewsController.findReviewsByIdController.bind(reviewsController)
+);
+router.get(
+  "/reviews",
+  authMiddleware,
+  reviewsController.findAllReviewsController.bind(reviewsController)
+);
+router.delete(
+  "/reviews/:id",
+  authMiddleware,
+  reviewsController.deleteReviewsController.bind(reviewsController)
+);
+router.put(
+  "/reviews/:id",
+  authMiddleware,
+  reviewsController.updateReviewsController.bind(reviewsController)
+);
 
 export default router;

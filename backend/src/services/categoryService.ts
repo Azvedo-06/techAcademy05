@@ -1,64 +1,78 @@
 import CategoryModel from "../models/CategoryModel";
-import { validateCategoryExist, validateNamAll } from "../utils/funcoes";
-class categoryService extends CategoryModel{
+import { validateNamAll } from "../utils/validateName";
 
-    public async createCategory(name:string): Promise<CategoryModel> {
-        try {
-            const category = await CategoryModel.create({name});
-            if (!validateNamAll(name)) {
-                throw 'nome da categoria é obrigatório'
-            }
-
-            return category;
-        } catch(error) {
-            throw (`${error}`)
-        }
+class CategoryService {
+  public async findAllCategory(): Promise<CategoryModel[]> {
+    try {
+      const categories = await CategoryModel.findAll();
+      return categories;
+    } catch (error) {
+      throw error;
     }
+  }
 
-    public async deleteCategory(id:number): Promise<void> {
-        try {
-            const categoryDelete = await validateCategoryExist(id);
+  public async createCategory(
+    name: string,
+    description: string
+  ): Promise<CategoryModel> {
+    try {
+      if (!validateNamAll(name)) {
+        throw "Nome da categoria é obrigatório";
+      }
 
-            await categoryDelete.destroy();
+      const newCategory = await CategoryModel.create({
+        name,
+        description,
+      });
 
-        } catch (error) {
-            throw (`${error}`);
-        }
+      return newCategory;
+    } catch (error) {
+      throw `${error}`;
     }
+  }
 
-    public async findAllCategory(): Promise<CategoryModel[]> {
-        try {
-            const categorys = await CategoryModel.findAll();
-
-            return categorys;
-        } catch (error) {
-            throw (`${error}`);
-        }
+  public async deleteCategory(id: number): Promise<void> {
+    try {
+      await CategoryModel.destroy({ where: { id } });
+    } catch (error) {
+      throw error;
     }
+  }
 
-    public async findCategoryById(id:number): Promise<CategoryModel> {
-        try {
-            const categoryId = await validateCategoryExist(id);
-
-            return categoryId;
-        } catch (error) {
-            throw (`${error}`);
-        }
+  public async findCategoryById(id: number): Promise<CategoryModel> {
+    try {
+      const category = await CategoryModel.findByPk(id);
+      if (!category) {
+        throw "Categoria não encontrada";
+      }
+      return category;
+    } catch (error) {
+      throw error;
     }
+  }
 
-    public async updateCategory(id:number, name: string): Promise<void> {
-        try {
-            const category = await validateCategoryExist(id);
-            if (!validateNamAll(name)) {
-                throw 'nome da categoria é obrigatório'
-            }
-    
-            category.name = name;
-            await category.save();
-        } catch(error) {
-            throw (`${error}`);
-        }
+  public async updateCategory(
+    id: number,
+    name: string,
+    description: string
+  ): Promise<[number]> {
+    try {
+      if (!validateNamAll(name)) {
+        throw "Nome da categoria é obrigatório";
+      }
+
+      const update = await CategoryModel.update(
+        {
+          name,
+          description,
+        },
+        { where: { id } }
+      );
+      return update;
+    } catch (error) {
+      throw error;
     }
+  }
 }
 
-export default categoryService;;
+export default CategoryService;

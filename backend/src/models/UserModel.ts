@@ -2,42 +2,48 @@ import { Model, DataTypes } from "sequelize";
 import sequelize from "../config/database";
 
 class UserModel extends Model {
-    id: number | undefined;
-    name: string | undefined;
-    email: string | undefined;
-    password: string | undefined;
-    cpf: string | undefined;
-};
+  id: number | undefined;
+  name: string | undefined;
+  email: string | undefined;
+  password: string | undefined;
+  cpf: string | undefined;
+  isAdmin: boolean | undefined;
+}
 
 UserModel.init(
-    {
-        id: {
-            type: DataTypes.INTEGER,
-            autoIncrement: true,
-            primaryKey: true,
-        },
-        name: {
-            type: DataTypes.STRING,
-            allowNull: false, // permitido nulo ? false
-        },
-        email: {
-            type: DataTypes.STRING,
-            allowNull: false,
-        },
-        password: {
-            type: DataTypes.STRING,
-            allowNull: false,
-        },
-        cpf: {
-            type: DataTypes.STRING,
-            allowNull: false,
-        }
+  {
+    id: {
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
+      primaryKey: true,
     },
-    {
-        sequelize,
-        modelName: 'UserModel',
-        tableName: 'users',
-    }
+    name: {
+      type: DataTypes.STRING,
+      allowNull: false, // permitido nulo ? false
+    },
+    email: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    password: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    cpf: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    isAdmin: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
+      allowNull: false,
+    },
+  },
+  {
+    sequelize,
+    modelName: "UserModel",
+    tableName: "users",
+  }
 );
 
 export default UserModel;

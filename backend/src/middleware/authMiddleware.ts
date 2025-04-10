@@ -1,28 +1,44 @@
-import { NextFunction, Request, Response } from "express";
-import { verifyToken } from '../config/jwt'
+import { Request, Response, NextFunction } from "express";
+import jwt from "jsonwebtoken";
 
-export const authMiddleware = (
-    req: Request,
-    res: Response,
-    next: NextFunction
-) => {
-
-    const token = req.header('Authorization')?.replace('Bearer ', '')
-
-    if (!token) {
-        return res.status(401)
-            .json({error: 'Access denied. No token'})
-    }
-
-    try {
-        const decoded: any = verifyToken(token);
-        req.body.user = decoded;
-        next()
-    } catch (error) {
-        return res.status(401)
-            .json({msg: 'Access denied. Invalid token' + error})
-    }
-
+interface DecodedToken {
+  user: {
+    id: number;
+    name: string;
+    email: string;
+  };
 }
+
+const authMiddleware = (req: Request, res: Response, next: NextFunction) => {
+  const authHeader = req.headers.authorization;
+
+  if (!authHeader) {
+    return res.status(401).json({ error: "Token não fornecido" });
+  }
+
+  const parts = authHeader.split(" ");
+
+  if (parts.length !== 2) {
+    return res.status(401).json({ error: "Token mal formatado" });
+  }
+
+  const [scheme, token] = parts;
+
+  if (!/^Bearer$/i.test(scheme)) {
+    return res.status(401).json({ error: "Token mal formatado" });
+  }
+
+  try {
+    const decoded = jwt.verify(
+      token,
+      process.env.JWT_SECRET || "segredo_bem_secreto"
+    ) as DecodedToken;
+
+    req.userId = decoded.user.id.toString();
+    return next();
+  } catch (error) {
+    return res.status(401).json({ error: "Token inválido" });
+  }
+};
 
 export default authMiddleware;

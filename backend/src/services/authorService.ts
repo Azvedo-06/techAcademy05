@@ -1,75 +1,93 @@
 import AuthorModel from "../models/AuthorModel";
-import { validateNamAll, validateAuthorBio, validateAuthorExist, validateAuthorDate} from "../utils/funcoes";
+import { validateNamAll } from "../utils/validateName";
+import { validateAuthorDate } from "../utils/validateDate";
+import { validateAuthorBio } from "../utils/validateDescription";
 
-class authorService extends AuthorModel {
-    public async createAuthor(name: string, bio: string, birth: Date): Promise<AuthorModel> {
-        try {
-            if (!validateNamAll(name)) {
-                throw 'nome do autor é obrigatório'
-            }
-            validateAuthorBio(bio);
-            const birthDate = validateAuthorDate(birth);
+class AuthorService {
+  public async findAllAuthors(): Promise<AuthorModel[]> {
+    try {
+      const authors = await AuthorModel.findAll({
+        attributes: ["id", "name", "bio", "birth"],
+        order: [["name", "ASC"]],
+      });
 
-            const newAuthor = await AuthorModel.create({
-                name,
-                bio,
-                birth: birthDate
-            });
-
-            return newAuthor
-        } catch (error) {
-            throw (`${error}`);
-        }
+      return authors;
+    } catch (error) {
+      console.error("Erro ao buscar autores:", error);
+      throw error;
     }
+  }
 
-    public async deleteAuthor(id:number): Promise<void> {
-        try {
-            const AuthorDelete = await validateAuthorExist(id);
+  public async createAuthor(
+    name: string,
+    birth: Date,
+    bio: string
+  ): Promise<AuthorModel> {
+    try {
+      if (!validateNamAll(name)) {
+        throw "Nome do autor é obrigatório";
+      }
+      validateAuthorBio(bio);
+      const dateBirth = validateAuthorDate(birth);
 
-            await AuthorDelete.destroy();
-        } catch (error) {
-            throw (`${error}`);
-        }
-    };
+      const newAuthor = await AuthorModel.create({
+        name,
+        birth: dateBirth,
+        bio,
+      });
 
-    public async findAllAuthor(): Promise<AuthorModel[]> {
-        try {
-            const authors = await AuthorModel.findAll();
-
-            return authors
-        } catch (error) {
-            throw (`${error}`)
-        }
+      return newAuthor;
+    } catch (error) {
+      throw `${error}`;
     }
+  }
 
-    public async findAuthorById(id:number): Promise<AuthorModel> {
-        try {
-            const authorId = await validateAuthorExist(id);
-            
-            return authorId
-        } catch (error) {
-            throw (`${error}`);
-        }
+  public async deleteAuthor(id: number): Promise<void> {
+    try {
+      await AuthorModel.destroy({ where: { id } });
+    } catch (error) {
+      throw error;
     }
+  }
 
-    public async updateAuthor(id: number, name: string, bio: string, birth: Date): Promise<void> {
-        try {
-            const author = await validateAuthorExist(id);
-            if (!validateNamAll(name)) {
-                throw 'nome é obrigatório'
-            }
-            validateAuthorBio(bio);
-            const authorBirth = validateAuthorDate(birth);
-          
-            author.name = name
-            author.bio = bio
-            author.birth = authorBirth
-
-            await author.save();
-        } catch (error) {
-            throw (`${error}`);
-        }
+  public async findAuthorById(id: number): Promise<AuthorModel> {
+    try {
+      const author = await AuthorModel.findByPk(id);
+      if (!author) {
+        throw "Autor não encontrado";
+      }
+      return author;
+    } catch (error) {
+      throw error;
     }
-};
+  }
 
-export default authorService;
+  public async updateAuthor(
+    id: number,
+    name: string,
+    birth: Date,
+    bio: string
+  ): Promise<[number]> {
+    try {
+      if (!validateNamAll(name)) {
+        throw "Nome do autor é obrigatório";
+      }
+      validateAuthorBio(bio);
+      const dateBirth = validateAuthorDate(birth);
+
+      const update = await AuthorModel.update(
+        {
+          name,
+          birth: dateBirth,
+          bio,
+        },
+        { where: { id } }
+      );
+      return update;
+    } catch (error) {
+      throw error;
+    }
+  }
+}
+
+export default AuthorService;

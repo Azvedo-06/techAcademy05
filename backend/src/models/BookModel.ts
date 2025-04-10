@@ -4,69 +4,87 @@ import AuthorModel from "./AuthorModel";
 import CategoryModel from "./CategoryModel";
 
 class BookModel extends Model {
-    id: number | undefined;
-    title: string | undefined;
-    description: string | undefined;
-    publication_date: Date | undefined;
-    authorId: number | undefined; // FK Referência à tabela Autores
-    categoryId: number | undefined; // FK Referência à tabela Categorias
+  id!: number;
+  title!: string;
+  description!: string;
+  publication_date!: Date;
+  coverImage!: Buffer | null;
+  coverImageType!: string | null;
+  bookPdf!: Buffer | null;
+  bookPdfName!: string | null;
+  authorId!: number | null;
+  categoryId!: number | null;
 }
 
 BookModel.init(
-    {
-        id: {
-            type: DataTypes.INTEGER,
-            autoIncrement: true,
-            primaryKey: true,
-        },
-        title: {
-            type: DataTypes.STRING,
-            allowNull: false,
-        },
-        description: {
-            type: DataTypes.TEXT,
-            allowNull: false,
-        },
-        publication_date: {
-            type: DataTypes.DATE,
-            allowNull: false,
-        },
-        authorId: {
-            type: DataTypes.INTEGER,
-            allowNull: true,
-        },
-        categoryId: {
-            type: DataTypes.INTEGER,
-            allowNull: true,
-        },
+  {
+    id: {
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
+      primaryKey: true,
     },
-    {
-        sequelize,
-        modelName: 'BookModel',
-        tableName: 'books'
-    }
-)
+    title: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    description: {
+      type: DataTypes.TEXT,
+      allowNull: false,
+    },
+    publication_date: {
+      type: DataTypes.DATE,
+      allowNull: false,
+    },
+    coverImage: {
+      type: DataTypes.BLOB("long"),
+      allowNull: true,
+    },
+    coverImageType: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    bookPdf: {
+      type: DataTypes.BLOB("long"),
+      allowNull: true,
+    },
+    bookPdfName: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    authorId: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+      references: {
+        model: AuthorModel,
+        key: "id",
+      },
+      onDelete: "SET NULL",
+    },
+    categoryId: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+      references: {
+        model: CategoryModel,
+        key: "id",
+      },
+      onDelete: "SET NULL",
+    },
+  },
+  {
+    sequelize,
+    modelName: "BookModel",
+    tableName: "books",
+  }
+);
 
 BookModel.belongsTo(AuthorModel, {
-    foreignKey: 'authorId', // definindo qual é a fk
-    as: 'author' // define o nome da relação na busca
-})
+  foreignKey: "authorId",
+  as: "author",
+});
 
 BookModel.belongsTo(CategoryModel, {
-    foreignKey: 'categoryId', 
-    as: 'category'
-})
-
-//mapeamento bidirecional 
-AuthorModel.hasMany(BookModel, {
-    foreignKey: 'authorId',
-    as: 'author'
-})
-
-// mapeamento bidirecional 
-CategoryModel.hasMany(BookModel, {
-    foreignKey: 'categoryId',
-    as: 'category'
-})
+  foreignKey: "categoryId",
+  as: "category",
+});
 
 export default BookModel;

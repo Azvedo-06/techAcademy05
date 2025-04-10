@@ -1,0 +1,510 @@
+/* Estilos globais */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  background: url("/livraria.jpg") no-repeat center center fixed;
+  background-size: cover;
+  color: #f5f5f5;
+}
+
+/* Navbar Styles */
+.navbar {
+  background-color: #1a1a1a;
+  padding: 1rem 2rem;
+}
+
+.navbar-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.navbar-logo {
+  color: white;
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.nav-links {
+  display: flex;
+  gap: 2rem;
+}
+
+.nav-link {
+  color: #e0e0e0;
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: color 0.3s ease;
+}
+
+.nav-link:hover {
+  color: #4caf50;
+}
+
+.user-menu {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.user-name {
+  color: #e0e0e0;
+  font-size: 0.9rem;
+}
+
+.btn {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn-login {
+  background-color: #2563eb;
+  color: white;
+}
+
+.btn-login:hover {
+  background-color: #1d4ed8;
+}
+
+.btn-logout {
+  background-color: #dc2626;
+  color: white;
+}
+
+.btn-logout:hover {
+  background-color: #b91c1c;
+}
+
+/* Estilos para as páginas de Login e Register */
+.auth-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background: rgba(0, 0, 0, 0.7); /* Fundo escuro com transparência */
+  color: white;
+}
+
+.auth-box {
+  background: rgba(30, 30, 30, 0.9); /* Fundo escuro */
+  color: white;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+  max-width: 400px;
+  width: 100%;
+}
+
+.auth-box h1 {
+  font-size: 24px;
+  font-weight: bold;
+  color: #4caf50;
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.auth-box form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.auth-box label {
+  font-size: 14px;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.auth-box input {
+  width: 100%; /* garante que ocupe o espaço completo */
+  box-sizing: border-box; /* inclui padding e border no cálculo do width */
+  padding: 0.75rem;
+  border: 1px solid #555;
+  border-radius: 4px;
+  font-size: 14px;
+  background: #222;
+  color: white;
+}
+
+.auth-box input::placeholder {
+  color: #888; /* Cor do placeholder */
+  font-size: 12px; /* Tamanho do texto do placeholder */
+  margin-top: 4px; /* Espaçamento entre o campo e o placeholder */
+}
+
+.auth-box input:focus {
+  outline: none;
+  border-color: #4caf50;
+  box-shadow: 0 0 4px rgba(76, 175, 80, 0.5);
+}
+
+.auth-box button {
+  padding: 0.75rem;
+  background: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.auth-box button:hover {
+  background: #45a049;
+}
+
+.auth-box p {
+  text-align: center;
+  font-size: 14px;
+}
+
+.auth-box p a {
+  color: #4caf50;
+  font-weight: bold;
+}
+
+.auth-box p a:hover {
+  color: #388e3c;
+}
+
+/* Estilização adicional para o Navbar */
+nav a {
+  transition: color 0.3s ease;
+}
+
+nav button {
+  transition: background-color 0.3s ease;
+}
+
+/* Estilos para as páginas de conteúdo */
+.content-container {
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100vh - 64px); /* altura total menos altura do navbar */
+  background: rgba(0, 0, 0, 0.7);
+  padding: 2rem;
+}
+
+.content-box {
+  background: rgba(30, 30, 30, 0.9);
+  color: white;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+  margin: 0 auto;
+  width: 100%;
+  max-width: 1200px;
+}
+
+.page-title {
+  font-size: 28px;
+  font-weight: bold;
+  color: #4caf50;
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+/* Grid de livros */
+.books-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 2rem;
+}
+
+.book-card {
+  background: rgba(40, 40, 40, 0.9);
+  border-radius: 8px;
+  overflow: hidden;
+  transition: transform 0.3s ease;
+}
+
+.book-card:hover {
+  transform: translateY(-5px);
+}
+
+.book-image {
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
+  object-position: center;
+}
+
+.book-info {
+  padding: 1rem;
+}
+
+.book-title {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: white;
+  margin-bottom: 0.5rem;
+}
+
+.book-author {
+  color: #4caf50;
+  font-size: 0.9rem;
+}
+
+/* Estilos para ações do CRUD */
+.book-actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.edit-button,
+.delete-button {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-size: 0.8rem;
+}
+
+.edit-button {
+  background-color: #2563eb;
+  color: white;
+}
+
+.edit-button:hover {
+  background-color: #1d4ed8;
+}
+
+.delete-button {
+  background-color: #dc2626;
+  color: white;
+}
+
+.delete-button:hover {
+  background-color: #b91c1c;
+}
+
+.cancel-button {
+  background-color: #6b7280;
+  color: white;
+  padding: 0.75rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-left: 1rem;
+}
+
+.cancel-button:hover {
+  background-color: #4b5563;
+}
+
+.button-group {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+}
+
+/* Estilos para Reviews */
+.reviews-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.review-card {
+  background: rgba(40, 40, 40, 0.9);
+  padding: 1.5rem;
+  border-radius: 8px;
+  border-left: 4px solid #4caf50;
+}
+
+.review-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.review-rating {
+  color: #ffd700;
+}
+
+/* Estilos para o formulário de review */
+.review-form-container {
+  background: rgba(40, 40, 40, 0.9);
+  padding: 2rem;
+  border-radius: 8px;
+  margin-bottom: 2rem;
+}
+
+.review-form-title {
+  font-size: 1.5rem;
+  color: #4caf50;
+  margin-bottom: 1.5rem;
+}
+
+.review-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.form-group label {
+  font-size: 0.9rem;
+  color: #e0e0e0;
+}
+
+.select-book,
+.select-rating,
+.textarea-comment {
+  padding: 0.75rem;
+  background: #222;
+  border: 1px solid #555;
+  border-radius: 4px;
+  color: white;
+  width: 100%;
+}
+
+.textarea-comment {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.submit-review {
+  background: #4caf50;
+  color: white;
+  padding: 0.75rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.submit-review:hover {
+  background: #45a049;
+}
+
+.error-message {
+  color: #ff4444;
+  font-size: 0.9rem;
+}
+
+/* Estilos adicionais para os cards de review */
+.review-author {
+  font-size: 0.8rem;
+  color: #888;
+  margin-top: 0.25rem;
+}
+
+.review-comment {
+  margin: 1rem 0;
+  color: #e0e0e0;
+}
+
+.review-date {
+  font-size: 0.8rem;
+  color: #888;
+  text-align: right;
+  margin-top: 1rem;
+}
+
+/* Estilos para Autores e Categorias */
+.grid-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+.list-item {
+  background: rgba(40, 40, 40, 0.9);
+  padding: 1.5rem;
+  border-radius: 8px;
+  transition: transform 0.3s ease;
+}
+
+.list-item:hover {
+  transform: translateY(-3px);
+}
+
+/* Estilos para detalhes do livro */
+.book-details {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.book-details-header {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  gap: 2rem;
+}
+
+.book-cover {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.book-info-main {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.book-category {
+  color: #888;
+  font-size: 0.9rem;
+}
+
+.book-date {
+  color: #888;
+  font-size: 0.9rem;
+}
+
+.book-description {
+  border-top: 1px solid #333;
+  padding-top: 2rem;
+}
+
+.book-description h2 {
+  color: #4caf50;
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+}
+
+.book-description p {
+  line-height: 1.6;
+  color: #e0e0e0;
+}
+
+.pdf-viewer-container {
+  margin-top: 2rem;
+  padding-top: 2rem;
+  border-top: 1px solid #333;
+}
+
+.pdf-viewer-container h2 {
+  color: #4caf50;
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+}
+
+input[type="file"] {
+  padding: 0.5rem;
+  background: #222;
+  border: 1px solid #555;
+  border-radius: 4px;
+  color: white;
+  width: 100%;
+}
