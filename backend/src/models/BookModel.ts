@@ -10,8 +10,6 @@ class BookModel extends Model {
   publication_date!: Date;
   coverImage!: Buffer | null;
   coverImageType!: string | null;
-  bookPdf!: Buffer | null;
-  bookPdfName!: string | null;
   authorId!: number | null;
   categoryId!: number | null;
 }
@@ -43,14 +41,6 @@ BookModel.init(
       type: DataTypes.STRING,
       allowNull: true,
     },
-    bookPdf: {
-      type: DataTypes.BLOB("long"),
-      allowNull: true,
-    },
-    bookPdfName: {
-      type: DataTypes.STRING,
-      allowNull: true,
-    },
     authorId: {
       type: DataTypes.INTEGER,
       allowNull: true,
@@ -77,6 +67,7 @@ BookModel.init(
   }
 );
 
+// Add these associations
 BookModel.belongsTo(AuthorModel, {
   foreignKey: "authorId",
   as: "author",

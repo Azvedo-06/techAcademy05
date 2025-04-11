@@ -34,8 +34,9 @@ class BookController {
 
       const coverImage = files?.coverImage?.[0]?.buffer ?? undefined;
       const coverImageType = files?.coverImage?.[0]?.mimetype ?? undefined;
-      const bookPdf = files?.bookPdf?.[0]?.buffer ?? undefined;
-      const bookPdfName = files?.bookPdf?.[0]?.originalname ?? undefined;
+      // Remover temporariamente
+      // const bookPdf = files?.bookPdf?.[0]?.buffer ?? undefined;
+      // const bookPdfName = files?.bookPdf?.[0]?.originalname ?? undefined;
 
       const book = await bookService.createBook(
         title,
@@ -44,9 +45,10 @@ class BookController {
         Number(authorId),
         Number(categoryId),
         coverImage,
-        coverImageType,
-        bookPdf,
-        bookPdfName
+        coverImageType
+        // Remover temporariamente
+        // bookPdf,
+        // bookPdfName
       );
 
       return res.status(201).json(book);

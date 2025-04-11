@@ -5,7 +5,7 @@ import authorRoutes from "./routes/authorRoutes";
 import categoryRoutes from "./routes/categoryRoutes";
 import loginRoutes from "./routes/loginRoutes";
 import reviewsRoutes from "./routes/reviewsRoutes";
-import userRoutes from "./routes/userRoutes"; // Add this import
+import userRoutes from "./routes/userRoutes";
 
 const app = express();
 
@@ -17,6 +17,6 @@ app.use(authorRoutes);
 app.use(categoryRoutes);
 app.use(loginRoutes);
 app.use(reviewsRoutes);
-app.use(userRoutes); // Add this line
+app.use(userRoutes);
 
 export default app;

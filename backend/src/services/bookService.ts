@@ -28,8 +28,6 @@ class BookService {
           "publication_date",
           "coverImage",
           "coverImageType",
-          "bookPdf",
-          "bookPdfName",
         ],
       });
 
@@ -37,9 +35,6 @@ class BookService {
         const bookData = book.toJSON();
         if (bookData.coverImage) {
           bookData.coverImage = bookData.coverImage.toString("base64");
-        }
-        if (bookData.bookPdf) {
-          bookData.bookPdf = bookData.bookPdf.toString("base64");
         }
         return bookData;
       });
@@ -83,9 +78,10 @@ class BookService {
     authorId: number,
     categoryId: number,
     coverImage?: Buffer,
-    coverImageType?: string,
-    bookPdf?: Buffer,
-    bookPdfName?: string
+    coverImageType?: string
+    // Remover temporariamente
+    // bookPdf?: Buffer,
+    // bookPdfName?: string
   ): Promise<BookModel> {
     try {
       if (!validateNamAll(title)) {
@@ -102,8 +98,6 @@ class BookService {
         categoryId,
         coverImage,
         coverImageType,
-        bookPdf,
-        bookPdfName,
       });
 
       return newBook;

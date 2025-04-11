@@ -26,7 +26,7 @@ CategoryModel.init(
   {
     sequelize,
     modelName: "CategoryModel",
-    tableName: "categories",
+    tableName: "categories", // Mudando de categorys para categories
   }
 );
 

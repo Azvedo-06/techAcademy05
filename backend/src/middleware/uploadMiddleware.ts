@@ -5,13 +5,10 @@ const storage = multer.memoryStorage();
 const upload = multer({
   storage,
   limits: {
-    fileSize: 10 * 1024 * 1024,
+    fileSize: 5 * 1024 * 1024, // limite apenas para imagens
   },
   fileFilter: (req, file, cb) => {
-    if (
-      file.mimetype.startsWith("image/") ||
-      file.mimetype === "application/pdf"
-    ) {
+    if (file.mimetype.startsWith("image/")) {
       cb(null, true);
     } else {
       cb(new Error("Formato de arquivo não suportado"));

@@ -1,8 +1,11 @@
 import sequelize from "./config/database";
 import app from "./app";
-import "./models/BookModel";
+
+// Import models in correct order
 import "./models/AuthorModel";
 import "./models/CategoryModel";
+import "./models/BookModel";
+import "./models/ReviewsModel";
 
 const port = 3000;
 
