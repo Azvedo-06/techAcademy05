@@ -69,23 +69,26 @@ class authorController {
   public async updateAuthorController(
     req: Request,
     res: Response
-  ): Promise<Response<any, Record<string, any>>> {
+  ): Promise<Response> {
     try {
       const { id } = req.params;
       const { name, bio, birth } = req.body;
 
-      const update = await authorService.updateAuthor(
-        parseInt(id, 10),
+      const updatedAuthor = await authorService.updateAuthor(
+        Number(id),
         name,
         bio,
-        birth
+        new Date(birth)
       );
 
-      return res.status(204).json(update);
+      return res.status(200).json(updatedAuthor);
     } catch (error) {
-      return res
-        .status(500)
-        .json({ error: "erro ao tentar atualizar autor: " + error });
+      console.error("Erro ao atualizar autor:", error);
+      return res.status(500).json({
+        error: `Erro ao atualizar autor: ${
+          error instanceof Error ? error.message : error
+        }`,
+      });
     }
   }
 }

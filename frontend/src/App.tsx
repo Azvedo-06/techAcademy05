@@ -41,6 +41,7 @@ const AppContent = () => {
 
         <Route element={<PrivateRoute />}>
           <Route path="/" element={<Books />} />
+          <Route path="/home" element={<Books />} />
           <Route path="/books/:id" element={<BookDetails />} />
           <Route path="/reviews" element={<Reviews />} />
           <Route path="/categories" element={<Categories />} />

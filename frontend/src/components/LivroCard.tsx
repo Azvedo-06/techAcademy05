@@ -12,6 +12,8 @@ const LivroCard = ({ book, onEdit, onDelete }: LivroCardProps) => {
   const navigate = useNavigate();
   const { user } = useAuth();
 
+  if (!book) return null;
+
   const handleClick = () => {
     navigate(`/books/${book.id}`);
   };
@@ -23,7 +25,7 @@ const LivroCard = ({ book, onEdit, onDelete }: LivroCardProps) => {
 
   const handleDeleteClick = (e: React.MouseEvent) => {
     e.stopPropagation();
-    onDelete?.(book.id);
+    onDelete?.(book.id.toString());
   };
 
   return (
@@ -39,7 +41,9 @@ const LivroCard = ({ book, onEdit, onDelete }: LivroCardProps) => {
       />
       <div className="book-info">
         <h2 className="book-title">{book.title}</h2>
-        <p className="book-author">{book.author.name}</p>
+        <p className="book-author">
+          {book.author?.name || "Autor desconhecido"}
+        </p>
         {user?.isAdmin && (
           <div className="book-actions" onClick={(e) => e.stopPropagation()}>
             <button onClick={handleEditClick} className="edit-button">

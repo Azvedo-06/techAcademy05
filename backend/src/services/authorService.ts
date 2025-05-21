@@ -65,9 +65,9 @@ class AuthorService {
   public async updateAuthor(
     id: number,
     name: string,
-    birth: Date,
-    bio: string
-  ): Promise<[number]> {
+    bio: string,
+    birth: Date
+  ): Promise<AuthorModel> {
     try {
       if (!validateNamAll(name)) {
         throw "Nome do autor é obrigatório";
@@ -75,15 +75,21 @@ class AuthorService {
       validateAuthorBio(bio);
       const dateBirth = validateAuthorDate(birth);
 
-      const update = await AuthorModel.update(
+      await AuthorModel.update(
         {
           name,
-          birth: dateBirth,
           bio,
+          birth: dateBirth,
         },
         { where: { id } }
       );
-      return update;
+
+      const updatedAuthor = await AuthorModel.findByPk(id);
+      if (!updatedAuthor) {
+        throw "Autor não encontrado após atualização";
+      }
+
+      return updatedAuthor;
     } catch (error) {
       throw error;
     }

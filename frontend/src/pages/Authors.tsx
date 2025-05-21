@@ -21,9 +21,19 @@ const Authors: React.FC = () => {
     try {
       const { data } = await api.get("/authors");
       setAuthors(data);
-    } catch (error) {
-      console.error("Erro ao buscar autores:", error);
-      setError("Não foi possível carregar os autores");
+    } catch (error: any) {
+      console.error("Erro detalhado:", {
+        message: error.message,
+        response: error.response?.data,
+        status: error.response?.status,
+      });
+      setError(
+        `Erro: ${
+          error.response?.data?.message ||
+          error.message ||
+          "Não foi possível carregar os autores"
+        }`
+      );
     } finally {
       setLoading(false);
     }

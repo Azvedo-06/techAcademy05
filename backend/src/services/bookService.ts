@@ -2,8 +2,12 @@ import BookModel from "../models/BookModel";
 import AuthorModel from "../models/AuthorModel";
 import CategoryModel from "../models/CategoryModel";
 import { validateNamAll } from "../utils/validateName";
-import { validateBookDate } from "../utils/validateDate";
-import { validateBookDescription } from "../utils/validateDescription";
+import {
+  validateBookExist,
+  validateBookTitle,
+  validateBookDescription,
+  validateBookDate,
+} from "../utils/validateBook";
 
 class BookService {
   public async findAllBooks(): Promise<BookModel[]> {
@@ -28,6 +32,8 @@ class BookService {
           "publication_date",
           "coverImage",
           "coverImageType",
+          "authorId",
+          "categoryId",
         ],
       });
 
@@ -79,21 +85,16 @@ class BookService {
     categoryId: number,
     coverImage?: Buffer,
     coverImageType?: string
-    // Remover temporariamente
-    // bookPdf?: Buffer,
-    // bookPdfName?: string
   ): Promise<BookModel> {
     try {
-      if (!validateNamAll(title)) {
-        throw "Titulo do livro é obrigatório";
-      }
+      validateBookTitle(title);
       validateBookDescription(description);
-      const dateBook = validateBookDate(publication_date);
+      validateBookDate(publication_date);
 
       const newBook = await BookModel.create({
         title,
         description,
-        publication_date: dateBook,
+        publication_date,
         authorId,
         categoryId,
         coverImage,
@@ -102,6 +103,7 @@ class BookService {
 
       return newBook;
     } catch (error) {
+      console.error("Erro ao criar livro:", error);
       throw error;
     }
   }
@@ -112,31 +114,58 @@ class BookService {
     description: string,
     publication_date: Date,
     authorId: number,
-    categoryId: number
-  ): Promise<[number, BookModel[]]> {
+    categoryId: number,
+    coverImage?: Buffer,
+    coverImageType?: string
+  ): Promise<BookModel> {
     try {
-      if (!validateNamAll(title)) {
-        throw "Titulo do livro é obrigatório";
+      // Primeiro, verifica se o livro existe
+      const book = await BookModel.findByPk(id);
+      if (!book) {
+        throw new Error("Livro não encontrado");
       }
-      validateBookDescription(description);
-      const dateBook = validateBookDate(publication_date);
 
-      const result = await BookModel.update(
-        {
-          title,
-          description,
-          publication_date: dateBook,
-          authorId,
-          categoryId,
-        },
-        {
-          where: { id },
-          returning: true,
-        }
-      );
+      // Log para debug
+      console.log("Dados recebidos para atualização:", {
+        title,
+        description,
+        publication_date,
+        authorId,
+        categoryId
+      });
 
-      return result;
+      // Atualiza diretamente no modelo
+      await book.update({
+        title: title,
+        description: description,
+        publication_date: publication_date,
+        authorId: authorId,
+        categoryId: categoryId,
+        ...(coverImage && { coverImage }),
+        ...(coverImageType && { coverImageType })
+      });
+
+      // Recarrega o livro com as associações
+      await book.reload({
+        include: [
+          {
+            model: AuthorModel,
+            as: "author",
+            attributes: ["id", "name"],
+          },
+          {
+            model: CategoryModel,
+            as: "category",
+            attributes: ["id", "name"],
+          },
+        ],
+      });
+
+      console.log("Livro após atualização:", book.toJSON());
+
+      return book;
     } catch (error) {
+      console.error("Erro na atualização:", error);
       throw error;
     }
   }

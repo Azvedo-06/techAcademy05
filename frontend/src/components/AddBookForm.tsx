@@ -2,31 +2,34 @@ import { useState, useEffect } from "react";
 import api from "../services/api";
 import { Book } from "@/types/book";
 
-interface BookFormProps {
+interface AddBookFormProps {
   onBookAdded: () => void;
   book?: Book;
   mode?: "create" | "edit";
   onCancel?: () => void;
 }
 
-const BookForm = ({
+const AddBookForm = ({
   onBookAdded,
   book,
   mode = "create",
   onCancel,
-}: BookFormProps) => {
+}: AddBookFormProps) => {
   const [title, setTitle] = useState(book?.title || "");
   const [description, setDescription] = useState(book?.description || "");
   const [publicationDate, setPublicationDate] = useState(
-    book?.publicationDate || ""
+    book?.publication_date
+      ? new Date(book.publication_date).toISOString().split("T")[0]
+      : ""
   );
-  const [authorId, setAuthorId] = useState(book?.author.id || "");
-  const [categoryId, setCategoryId] = useState(book?.category.id || "");
+  const [authorId, setAuthorId] = useState(book?.authorId?.toString() || "");
+  const [categoryId, setCategoryId] = useState(
+    book?.categoryId?.toString() || ""
+  );
   const [authors, setAuthors] = useState<any[]>([]);
   const [categories, setCategories] = useState<any[]>([]);
   const [error, setError] = useState("");
   const [coverImage, setCoverImage] = useState<File | null>(null);
-  const [bookPdf, setBookPdf] = useState<File | null>(null);
 
   useEffect(() => {
     fetchData();
@@ -52,53 +55,56 @@ const BookForm = ({
     }
   };
 
-  const handlePdfChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
-      setBookPdf(e.target.files[0]);
-    }
-  };
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError("");
+
+    // Validações
+    if (!title.trim()) {
+      setError("O título é obrigatório");
+      return;
+    }
+    if (!description.trim()) {
+      setError("A descrição é obrigatória");
+      return;
+    }
+    if (!publicationDate) {
+      setError("A data de publicação é obrigatória");
+      return;
+    }
+    if (!authorId) {
+      setError("O autor é obrigatório");
+      return;
+    }
+    if (!categoryId) {
+      setError("A categoria é obrigatória");
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("title", title.trim());
+    formData.append("description", description.trim());
+    formData.append("publication_date", publicationDate);
+    formData.append("authorId", authorId);
+    formData.append("categoryId", categoryId);
+    
+    if (coverImage) {
+      formData.append("coverImage", coverImage);
+    }
 
     try {
-      const formData = new FormData();
-      formData.append("title", title);
-      formData.append("description", description);
-      formData.append("publication_date", publicationDate);
-      formData.append("authorId", authorId);
-      formData.append("categoryId", categoryId);
-
-      if (coverImage) {
-        formData.append("coverImage", coverImage);
-      }
-
-      if (bookPdf) {
-        formData.append("bookPdf", bookPdf);
-      }
-
-      if (mode === "edit" && book) {
-        await api.put(`/books/${book.id}`, formData, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        });
+      if (mode === "edit" && book?.id) {
+        console.log("Enviando dados para atualização:", Object.fromEntries(formData));
+        const response = await api.put(`/books/${book.id}`, formData);
+        console.log("Resposta da atualização:", response.data);
       } else {
-        await api.post("/books", formData, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        });
+        await api.post("/books", formData);
       }
-
+      
+      onBookAdded(); // Atualiza a lista de livros
       resetForm();
-      onBookAdded();
     } catch (err: any) {
-      setError(
-        err.response?.data?.error ||
-          `Erro ao ${mode === "edit" ? "atualizar" : "adicionar"} livro`
-      );
+      console.error("Erro ao processar livro:", err);
+      setError(err.response?.data?.error || "Erro ao processar livro");
     }
   };
 
@@ -109,7 +115,6 @@ const BookForm = ({
     setAuthorId("");
     setCategoryId("");
     setCoverImage(null);
-    setBookPdf(null);
   };
 
   return (
@@ -147,7 +152,10 @@ const BookForm = ({
             type="date"
             id="publicationDate"
             value={publicationDate}
-            onChange={(e) => setPublicationDate(e.target.value)}
+            onChange={(e) => {
+              // Mantém o formato yyyy-mm-dd para envio ao backend
+              setPublicationDate(e.target.value);
+            }}
             required
             className="select-book"
           />
@@ -200,17 +208,6 @@ const BookForm = ({
           />
         </div>
 
-        <div className="form-group">
-          <label htmlFor="bookPdf">PDF do Livro</label>
-          <input
-            type="file"
-            id="bookPdf"
-            accept="application/pdf"
-            onChange={handlePdfChange}
-            className="select-book"
-          />
-        </div>
-
         {error && <p className="error-message">{error}</p>}
 
         <div className="button-group">
@@ -228,4 +225,4 @@ const BookForm = ({
   );
 };
 
-export default BookForm;
+export default AddBookForm;

@@ -20,7 +20,8 @@ const Login = () => {
         localStorage.setItem("token", response.data.token);
         localStorage.setItem("user", JSON.stringify(response.data.user));
         login(response.data.token, response.data.user);
-        navigate("/");
+        navigate("/authors");
+        window.location.reload();
       }
     } catch (err: any) {
       setError(err.response?.data?.error || "Email ou senha inválidos");

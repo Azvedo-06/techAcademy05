@@ -48,7 +48,6 @@ BookModel.init(
         model: AuthorModel,
         key: "id",
       },
-      onDelete: "SET NULL",
     },
     categoryId: {
       type: DataTypes.INTEGER,
@@ -57,7 +56,6 @@ BookModel.init(
         model: CategoryModel,
         key: "id",
       },
-      onDelete: "SET NULL",
     },
   },
   {
@@ -67,7 +65,6 @@ BookModel.init(
   }
 );
 
-// Add these associations
 BookModel.belongsTo(AuthorModel, {
   foreignKey: "authorId",
   as: "author",

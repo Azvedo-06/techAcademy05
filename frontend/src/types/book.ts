@@ -1,18 +1,18 @@
 export interface Book {
-  id: string;
+  id: number;
   title: string;
   description: string;
-  publicationDate: string;
-  coverImage: string | null;
-  coverImageType: string | null;
-  bookPdf: string | null;
-  bookPdfName: string | null;
-  author: {
-    id: string;
+  publication_date: string;
+  coverImage?: string;
+  coverImageType?: string;
+  authorId: number;
+  categoryId: number;
+  author?: {
+    id: number;
     name: string;
   };
-  category: {
-    id: string;
+  category?: {
+    id: number;
     name: string;
   };
 }

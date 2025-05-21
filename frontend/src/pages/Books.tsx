@@ -15,12 +15,25 @@ const Books = () => {
   const fetchBooks = async () => {
     try {
       const { data } = await api.get("/books");
+      console.log("Livros atualizados:", data);
       setBooks(data);
     } catch (error) {
       console.error("Erro ao buscar livros:", error);
       setError("Não foi possível carregar os livros.");
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleBookUpdated = async () => {
+    try {
+      const { data } = await api.get("/books");
+      console.log("Livros atualizados após edição:", data);
+      setBooks(data);
+      setEditingBook(null); // Fecha o formulário de edição
+    } catch (error) {
+      console.error("Erro ao atualizar lista de livros:", error);
+      setError("Erro ao atualizar lista de livros");
     }
   };
 
@@ -60,7 +73,7 @@ const Books = () => {
 
         {user?.isAdmin && editingBook && (
           <BookForm
-            onBookAdded={fetchBooks}
+            onBookAdded={handleBookUpdated}
             book={editingBook}
             mode="edit"
             onCancel={handleCancelEdit}

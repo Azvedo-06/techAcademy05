@@ -23,16 +23,20 @@ const AddAuthorForm = ({
 }: AddAuthorFormProps) => {
   const [name, setName] = useState(author?.name || "");
   const [bio, setBio] = useState(author?.bio || "");
-  const [birth, setBirth] = useState(author?.birth?.split("T")[0] || "");
+  const [birth, setBirth] = useState(
+    author?.birth ? new Date(author.birth).toISOString().split("T")[0] : ""
+  );
   const [error, setError] = useState("");
 
   useEffect(() => {
-    if (author) {
-      setName(author.name);
-      setBio(author.bio);
-      setBirth(author.birth.split("T")[0]);
+    if (author && mode === "edit") {
+      setName(author.name || "");
+      setBio(author.bio || "");
+      setBirth(
+        author.birth ? new Date(author.birth).toISOString().split("T")[0] : ""
+      );
     }
-  }, [author]);
+  }, [author, mode]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
