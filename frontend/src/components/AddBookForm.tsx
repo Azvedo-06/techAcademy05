@@ -35,6 +35,21 @@ const AddBookForm = ({
     fetchData();
   }, []);
 
+  useEffect(() => {
+    if (mode === "edit" && book) {
+      setTitle(book.title || "");
+      setDescription(book.description || "");
+      setPublicationDate(
+        book.publication_date
+          ? new Date(book.publication_date).toISOString().split("T")[0]
+          : ""
+      );
+      setAuthorId(book.authorId?.toString() || "");
+      setCategoryId(book.categoryId?.toString() || "");
+      setCoverImage(null);
+    }
+  }, [book, mode]);
+
   const fetchData = async () => {
     try {
       const [authorsRes, categoriesRes] = await Promise.all([
@@ -80,30 +95,46 @@ const AddBookForm = ({
       return;
     }
 
-    const formData = new FormData();
-    formData.append("title", title.trim());
-    formData.append("description", description.trim());
-    formData.append("publication_date", publicationDate);
-    formData.append("authorId", authorId);
-    formData.append("categoryId", categoryId);
-    
-    if (coverImage) {
-      formData.append("coverImage", coverImage);
-    }
-
     try {
       if (mode === "edit" && book?.id) {
-        console.log("Enviando dados para atualização:", Object.fromEntries(formData));
-        const response = await api.put(`/books/${book.id}`, formData);
-        console.log("Resposta da atualização:", response.data);
+        // Se não tiver nova imagem, envie como JSON
+        if (!coverImage) {
+          const payload = {
+            title: title.trim(),
+            description: description.trim(),
+            publication_date: publicationDate,
+            authorId: authorId,
+            categoryId: categoryId,
+          };
+          await api.put(`/books/${book.id}`, payload);
+        } else {
+          // Se tiver imagem, envie como FormData
+          const formData = new FormData();
+          formData.append("title", title.trim());
+          formData.append("description", description.trim());
+          formData.append("publication_date", publicationDate);
+          formData.append("authorId", authorId);
+          formData.append("categoryId", categoryId);
+          formData.append("coverImage", coverImage);
+          await api.put(`/books/${book.id}`, formData);
+        }
       } else {
+        // Criação continua igual
+        const formData = new FormData();
+        formData.append("title", title.trim());
+        formData.append("description", description.trim());
+        formData.append("publication_date", publicationDate);
+        formData.append("authorId", authorId);
+        formData.append("categoryId", categoryId);
+        if (coverImage) {
+          formData.append("coverImage", coverImage);
+        }
         await api.post("/books", formData);
       }
-      
-      onBookAdded(); // Atualiza a lista de livros
+
+      onBookAdded();
       resetForm();
     } catch (err: any) {
-      console.error("Erro ao processar livro:", err);
       setError(err.response?.data?.error || "Erro ao processar livro");
     }
   };
