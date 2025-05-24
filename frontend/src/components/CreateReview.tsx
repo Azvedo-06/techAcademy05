@@ -22,8 +22,8 @@ const CreateReview = ({ books, onReviewCreated }: CreateReviewProps) => {
     try {
       await api.post("/reviews", {
         BookId: selectedBook,
-        nota: parseInt(rating),
-        comments: comment,
+        rating: parseInt(rating),
+        comment: comment,
         userId: user?.id,
       });
 

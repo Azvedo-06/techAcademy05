@@ -6,9 +6,9 @@ const reviewsService = new ReviewsService();
 class reviewsController {
     public async createReviewsController(req:Request, res:Response): Promise<Response<any, Record<string, any>>> {
         try {
-            const {comments, nota, userId, BookId} = req.body;
-            const reviews = await reviewsService.createReviews(comments, nota, userId, BookId);
-
+            const {comment, rating, userId, bookId} = req.body;
+            const reviews = await reviewsService.createReviews(comment, rating, userId, bookId);
+            
             return res.status(201).json(reviews);
         } catch (error) {
             return res.status(500).json({error: "erro ao tentar criar comentário: " + error})
@@ -48,14 +48,14 @@ class reviewsController {
     public async updateReviewsController(req:Request, res:Response) {
         try {
             const {id} = req.params;
-            const {comments, nota, userId, BookId} = req.body;
+            const {comment, rating, userId, bookId} = req.body;
 
             const update = await reviewsService.updateReviews(
                 parseInt(id, 10),
-                comments,
-                nota,
+                comment,
+                rating,
                 userId,
-                BookId
+                bookId
             )
 
             return res.status(204).json(update)

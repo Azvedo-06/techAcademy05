@@ -5,10 +5,10 @@ import BookModel from "./BookModel";
 
 class ReviewsModel extends Model {
   id: number | undefined;
-  comments: string | undefined;
-  nota: number | undefined;
+  comment: string | undefined;
+  rating: number | undefined;
   userId: number | undefined; 
-  BookId: number | undefined;
+  bookId: number | undefined;
 }
 
 ReviewsModel.init(
@@ -18,11 +18,11 @@ ReviewsModel.init(
       autoIncrement: true,
       primaryKey: true,
     },
-    comments: {
+    comment: {
       type: DataTypes.TEXT,
       allowNull: false,
     },
-    nota: {
+    rating: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
@@ -30,7 +30,7 @@ ReviewsModel.init(
       type: DataTypes.INTEGER,
       allowNull: true,
     },
-    BookId: {
+    bookId: {
       type: DataTypes.INTEGER,
       allowNull: true,
     },
@@ -53,12 +53,12 @@ UserModel.hasMany(ReviewsModel, {
 });
 
 ReviewsModel.belongsTo(BookModel, {
-  foreignKey: "BookId",
+  foreignKey: "bookId",
   as: "book",
 });
 // mapeamento bidirecional
 BookModel.hasMany(ReviewsModel, {
-  foreignKey: "BookId",
+  foreignKey: "bookId",
   as: "book",
 });
 

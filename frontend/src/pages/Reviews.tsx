@@ -72,16 +72,16 @@ const Reviews = () => {
               <div className="review-header">
                 <div>
                   <h2 className="book-title">
-                    {books.find((b) => b.id === review.BookId)?.title}
+                    {books.find((b) => b.id === Number(review.bookId))?.title}
                   </h2>
                   <p className="review-author">
                     Avaliado por: {review.user.name}
                   </p>
                 </div>
-                <span className="review-rating">{review.nota}/5 ★</span>
+                <span className="review-rating">{review.rating}/5 ★</span>
               </div>
-              {review.comments && (
-                <p className="review-comment">{review.comments}</p>
+              {review.comment && (
+                <p className="review-comment">{review.comment}</p>
               )}
               <p className="review-date">
                 {new Date(review.createdAt).toLocaleDateString()}
