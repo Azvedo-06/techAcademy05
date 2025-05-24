@@ -15,6 +15,7 @@ import NavBar from "./components/Navbar";
 import Categories from "./pages/Categories";
 import Authors from "./pages/Authors";
 import PrivateRoute from "./components/PrivateRoute";
+import Profile from "./pages/Profile";
 
 const AppContent = () => {
   const location = useLocation();
@@ -46,6 +47,7 @@ const AppContent = () => {
           <Route path="/reviews" element={<Reviews />} />
           <Route path="/categories" element={<Categories />} />
           <Route path="/authors" element={<Authors />} />
+          <Route path="/profile" element={<Profile />} />
         </Route>
       </Routes>
     </>

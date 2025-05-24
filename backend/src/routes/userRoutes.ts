@@ -12,7 +12,7 @@ router.delete(
   authMiddleware,
   userController.deleteUserController
 );
-router.put("/users/:id", authMiddleware, userController.updateUserController);
+router.put("/users/:id", userController.updateUserController);
 router.get("/users/:id", authMiddleware, userController.findUserByIdController);
 
 export default router;

@@ -97,7 +97,6 @@ const AddBookForm = ({
 
     try {
       if (mode === "edit" && book?.id) {
-        // Se não tiver nova imagem, envie como JSON
         if (!coverImage) {
           const payload = {
             title: title.trim(),
@@ -108,7 +107,6 @@ const AddBookForm = ({
           };
           await api.put(`/books/${book.id}`, payload);
         } else {
-          // Se tiver imagem, envie como FormData
           const formData = new FormData();
           formData.append("title", title.trim());
           formData.append("description", description.trim());
@@ -119,7 +117,6 @@ const AddBookForm = ({
           await api.put(`/books/${book.id}`, formData);
         }
       } else {
-        // Criação continua igual
         const formData = new FormData();
         formData.append("title", title.trim());
         formData.append("description", description.trim());
@@ -184,7 +181,6 @@ const AddBookForm = ({
             id="publicationDate"
             value={publicationDate}
             onChange={(e) => {
-              // Mantém o formato yyyy-mm-dd para envio ao backend
               setPublicationDate(e.target.value);
             }}
             required

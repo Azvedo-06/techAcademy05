@@ -11,11 +11,13 @@ type User = {
   id: string;
   name: string;
   email: string;
-  isAdmin: boolean; // Adicione esta linha
+  cpf?: string;
+  isAdmin: boolean;
 };
 
 type AuthContextData = {
   user: User | null;
+  setUser: (user: User | null) => void;
   login: (token: string, userData: User) => void;
   logout: () => void;
   authenticated: boolean;
@@ -56,8 +58,19 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     setAuthenticated(false);
   };
 
+  const handleUpdateUser = (userData: any) => {
+    // Pegue só os campos que você usa no contexto
+    setUser({
+      id: userData.id,
+      name: userData.name,
+      email: userData.email,
+      cpf: userData.cpf,
+      isAdmin: userData.isAdmin,
+    });
+  };
+
   return (
-    <AuthContext.Provider value={{ user, login, logout, authenticated }}>
+    <AuthContext.Provider value={{ user, setUser, login, logout, authenticated }}>
       {children}
     </AuthContext.Provider>
   );

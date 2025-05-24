@@ -70,17 +70,16 @@ class userController {
   ): Promise<Response<any, Record<string, any>>> {
     try {
       const { id } = req.params;
-      const { name, email, password, cpf } = req.body;
+      const { name, email, password } = req.body;
 
-      const update = await userService.updateUser(
+      const updatedUser = await userService.updateUser(
         parseInt(id, 10),
         name,
         email,
-        password,
-        cpf
+        password // pode ser undefined ou ""
       );
 
-      return res.status(200).json(update);
+      return res.status(200).json(updatedUser);
     } catch (error) {
       return res
         .status(500)

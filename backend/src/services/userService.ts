@@ -95,25 +95,26 @@ class userService extends UserModel {
     id: number,
     name: string,
     email: string,
-    password: string,
-    cpf: string
-  ): Promise<void> {
+    password?: string
+  ): Promise<UserModel> {
     try {
       const user = await validateUserExist(id);
-      const hashedPassword = await validateUserHash(password);
 
       if (!validateNamAll(name)) {
         throw "nome é obrigatório";
       }
       validateUserEmail(email);
-      validateUserCpf(cpf);
-      validateUserPassword(password);
 
-      (user.name = name),
-        (user.email = email),
-        (user.password = hashedPassword),
-        (user.cpf = cpf);
+      user.name = name;
+      user.email = email;
+
+      if (password && password.length >= 6) {
+        validateUserPassword(password);
+        user.password = await validateUserHash(password);
+      }
+
       await user.save();
+      return user;
     } catch (error) {
       throw `${error}`;
     }
