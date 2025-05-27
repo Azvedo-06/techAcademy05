@@ -9,7 +9,7 @@ class authorController {
   ): Promise<Response<any, Record<string, any>>> {
     try {
       const { name, bio, birth } = req.body;
-      const author = await authorService.createAuthor(name, bio, birth);
+      const author = await authorService.createAuthor(name, birth, bio);
 
       return res.status(201).json(author);
     } catch (error) {

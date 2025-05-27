@@ -106,9 +106,12 @@ const Authors: React.FC = () => {
           {authors.map((author) => (
             <div key={author.id} className="list-item">
               <h2 className="book-title">{author.name}</h2>
-              <p className="text-gray-300">{author.bio}</p>
-              <p className="text-gray-400 mt-2">
-                Nascimento: {new Date(author.birth).toLocaleDateString()}
+              <p>
+                Nascimento: {author.birth
+                  ? new Date(author.birth).toLocaleDateString("pt-BR", {
+                      timeZone: "UTC",
+                    })
+                  : "Data não informada"}
               </p>
               {user?.isAdmin && (
                 <div className="book-actions">
