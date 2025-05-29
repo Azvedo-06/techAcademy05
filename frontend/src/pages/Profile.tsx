@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useAuth } from "../context/AuthContext";
 import api from "../services/api";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 const Profile = () => {
   const { user, setUser } = useAuth();
@@ -11,6 +12,7 @@ const Profile = () => {
   const [success, setSuccess] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [editing, setEditing] = useState(false);
+  const [showCpf, setShowCpf] = useState(false);
 
   useEffect(() => {
     setName(user?.name || "");
@@ -23,6 +25,10 @@ const Profile = () => {
     setSuccess(null);
 
     try {
+      if (!user) {
+        setError("Usuário não autenticado.");
+        return;
+      }
       const payload: any = { name, email };
       if (password) payload.password = password;
 
@@ -61,7 +67,27 @@ const Profile = () => {
           <div>
             <p><strong>Nome:</strong> {user?.name}</p>
             <p><strong>Email:</strong> {user?.email}</p>
-            <p><strong>CPF:</strong> {user?.cpf}</p>
+            <p style={{ display: "flex", alignItems: "center", gap: 8 }}>
+              <strong>CPF:</strong>
+              <span style={{ letterSpacing: 2 }}>
+                {showCpf ? user?.cpf : user?.cpf?.replace(/.(?=.{3})/g, "*")}
+              </span>
+              <button
+                type="button"
+                onClick={() => setShowCpf((v) => !v)}
+                style={{
+                  background: "none",
+                  border: "none",
+                  cursor: "pointer",
+                  color: "#4caf50",
+                  marginLeft: 4,
+                  fontSize: 18,
+                }}
+                aria-label={showCpf ? "Ocultar CPF" : "Mostrar CPF"}
+              >
+                {showCpf ? <FaEyeSlash /> : <FaEye />}
+              </button>
+            </p>
             <button className="edit-button" onClick={() => setEditing(true)}>
               Editar Perfil
             </button>
