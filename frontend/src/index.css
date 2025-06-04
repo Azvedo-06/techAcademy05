@@ -508,3 +508,15 @@ input[type="file"] {
   color: white;
   width: 100%;
 }
+
+.cpf-toggle-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #4caf50;
+  margin-left: 4px;
+  font-size: 18px;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+}

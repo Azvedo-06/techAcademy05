@@ -3,6 +3,14 @@ import { useAuth } from "../context/AuthContext";
 import api from "../services/api";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 
+interface UserProfile {
+  id: string;
+  name: string;
+  email: string;
+  cpf: string;
+  isAdmin: boolean;
+}
+
 const Profile = () => {
   const { user, setUser } = useAuth();
   const [name, setName] = useState(user?.name || "");
@@ -29,33 +37,29 @@ const Profile = () => {
         setError("Usuário não autenticado.");
         return;
       }
-      const payload: any = { name, email };
+      const payload: Partial<Pick<UserProfile, "name" | "email"> & { password?: string }> = { name, email };
       if (password) payload.password = password;
 
       const response = await api.put(`/users/${user.id}`, payload);
-      setUser({
+      
+      const updatedUser: UserProfile = {
         id: response.data.id,
         name: response.data.name,
         email: response.data.email,
         cpf: response.data.cpf,
         isAdmin: response.data.isAdmin,
-      });
-      localStorage.setItem(
-        "user",
-        JSON.stringify({
-          id: response.data.id,
-          name: response.data.name,
-          email: response.data.email,
-          cpf: response.data.cpf,
-          isAdmin: response.data.isAdmin,
-        })
-      );
-      setName(response.data.name);
-      setEmail(response.data.email);
+      };
+
+      setUser(updatedUser);
+      localStorage.setItem("user", JSON.stringify(updatedUser));
+      
+      setName(updatedUser.name);
+      setEmail(updatedUser.email);
       setSuccess("Perfil atualizado com sucesso!");
       setEditing(false);
-    } catch (err: any) {
-      setError(err.response?.data?.error || "Erro ao atualizar perfil");
+    } catch (err) {
+      const errorMessage = (err as any)?.response?.data?.error || "Erro ao atualizar perfil";
+      setError(errorMessage);
     }
   };
 
@@ -75,14 +79,7 @@ const Profile = () => {
               <button
                 type="button"
                 onClick={() => setShowCpf((v) => !v)}
-                style={{
-                  background: "none",
-                  border: "none",
-                  cursor: "pointer",
-                  color: "#4caf50",
-                  marginLeft: 4,
-                  fontSize: 18,
-                }}
+                className="cpf-toggle-button"
                 aria-label={showCpf ? "Ocultar CPF" : "Mostrar CPF"}
               >
                 {showCpf ? <FaEyeSlash /> : <FaEye />}
