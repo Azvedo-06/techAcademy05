@@ -132,9 +132,9 @@ const Register = () => {
               required
             />
           </div>
-          {error && <p style={{ color: "red", fontSize: "14px" }}>{error}</p>}
+          {error && <p className="error-message" style={{ color: "red", fontSize: "14px" }}>{error}</p>}
           {success && (
-            <p style={{ color: "green", fontSize: "14px" }}>{success}</p>
+            <p className="success-message" style={{ color: "green", fontSize: "14px" }}>{success}</p>
           )}
           <button type="submit">Registrar</button>
         </form>

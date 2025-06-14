@@ -4,7 +4,7 @@ test.describe('Pagina de Login', () => {
   test('Deve fazer login com sucesso, redireciona para a home(/books)', async ({page}) => {
     await page.goto('http://localhost:5173/login');
      
-    await page.fill('#email', 'azinho006@gmail.com');
+    await page.fill('#email', 'admin@gmail.com');
     await page.fill('#password', '123456');
 
     await page.getByRole("button", { name: "Entrar" }).click()
@@ -15,7 +15,7 @@ test.describe('Pagina de Login', () => {
   test('Deve falhar ao tentar login com senha incorreta', async ({page}) => {
     await page.goto('http://localhost:5173/login');
 
-    await page.fill('#email', 'azinho006@gmail.com');
+    await page.fill('#email', 'admin@gmail.com');
     await page.fill('#password', '517700');
 
     await page.getByRole("button", { name: "Entrar" }).click()
