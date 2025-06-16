@@ -14,6 +14,7 @@ test.describe('Pagina de Registrar-se', () => {
         await expect(page.locator('p.success-message')).toHaveText(/Cadastro realizado com sucesso! Redirecionando para login.../);
     })
 
+    // cpf já em uso
     test('Deve falhar ao criar usuario com um cpf que já está em uso', async ({page}) => {
         await page.goto('http://localhost:5173/register');
 

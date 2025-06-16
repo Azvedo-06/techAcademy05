@@ -42,6 +42,7 @@ test.describe('Crud completa de categorias', () => {
         await expect(page.locator('h2.book-title:has-text("Ficção")')).toHaveCount(0);
     })
 
+    // inputs vazios
     test('Deve exibir erro ao tentar criar uma categoria com nome vazio', async ({page}) => {
         await page.goto('http://localhost:5173/login');
 

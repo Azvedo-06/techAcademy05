@@ -44,6 +44,7 @@ test.describe('Crud completa de books', () => {
         await expect(page.locator('h2.book-title:has-text("test")')).toHaveCount(0);
     })
 
+    // inputs vazios
     test('Deve exibir erro ao tentar criar um livro com nome vazio', async ({page}) => {
         await page.goto('http://localhost:5173/login');
 

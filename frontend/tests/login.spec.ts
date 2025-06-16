@@ -23,6 +23,7 @@ test.describe('Pagina de Login', () => {
     await expect(page.locator('p.text-red-500')).toHaveText(/E-mail ou senha inválidos/);
   })
 
+  // inputs vazios
   test('deve exibir mensagem de erro ao deixar campos vazios(required)', async ({ page }) => {
     await page.goto('http://localhost:5173/login');
 
