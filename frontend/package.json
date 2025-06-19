@@ -8,8 +8,7 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "end-2-end": "playwright test --project=chromium",
-    "prepare": "husky install"
+    "end-2-end": "playwright test --project=chromium"
   },
   "dependencies": {
     "@headlessui/react": "^1.7.18",

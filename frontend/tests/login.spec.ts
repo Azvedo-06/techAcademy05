@@ -5,7 +5,7 @@ test.describe('Pagina de Login', () => {
     await page.goto('http://localhost:5173/login');
      
     await page.fill('#email', 'admin@gmail.com');
-    await page.fill('#password', '123456');
+    await page.fill('#password', '12345');
 
     await page.getByRole("button", { name: "Entrar" }).click()
 

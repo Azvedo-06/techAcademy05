@@ -87,7 +87,8 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "test:frontend": "cd frontend; npm run end-2-end"
   },
   "keywords": [],
   "author": "",
